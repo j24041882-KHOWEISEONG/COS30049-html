@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=2">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 </head>
 <body>
@@ -23,52 +23,68 @@
       <a href="predict.html">Forecast</a>
     </nav>
   </header>
-  <main class="page" id="content">
+  <main class="page history" id="content">
     <p class="eyebrow">Historical data</p>
     <h1>How registrations changed</h1>
-    <p class="lede">Years, average income, vehicle type, and fuel come from the cleaned file. That file is national, so there is no location filter. Choose All to clear one filter, or Reset view to clear every filter. The [] button opens the numbers. The &gt;&lt; button opens a larger copy. Axes start at zero.</p>
-    <div class="filters">
+    <p class="lede">Filter the cleaned national file by year, income, vehicle type, or fuel. [] opens the numbers and &gt;&lt; opens a larger chart. Axes start at zero.</p>
+    <form class="filter-bar" onsubmit="return false">
       <label>Years <select id="year"></select></label>
       <label>Average income <select id="income"></select></label>
       <label>Vehicle types <select id="category"></select></label>
       <label>Fuel <select id="fuel"></select></label>
-      <label>Clear <button type="button" id="reset" class="ghost">Reset view</button></label>
-    </div>
+      <button type="button" id="reset" class="ghost">Reset view</button>
+    </form>
+    <section class="pulse" aria-label="Filter summary">
+      <article class="stat lead-stat">
+        <span>Matching registrations</span>
+        <strong id="summary-total">—</strong>
+      </article>
+      <article class="stat"><span>Largest type</span><strong id="summary-type">—</strong></article>
+      <article class="stat"><span>Largest fuel</span><strong id="summary-fuel">—</strong></article>
+      <article class="stat"><span>Years in view</span><strong id="summary-years">—</strong></article>
+    </section>
     <p id="summary" class="note"></p>
     <p id="load-error" class="error" role="alert"></p>
+    <article class="card feature">
+      <header>
+        <div>
+          <h2>By vehicle type</h2>
+          <p class="caption">The main chart. Longest bar is the largest group.</p>
+        </div>
+        <div class="icon-buttons">
+          <button type="button" data-table="category" aria-label="Show data table for vehicle type">[]</button>
+          <button type="button" data-enlarge="category" aria-label="Enlarge vehicle type chart">&gt;&lt;</button>
+        </div>
+      </header>
+      <div id="category-chart" class="chart xl"></div>
+    </article>
     <section class="split">
       <article class="card">
         <header>
-          <h2>By vehicle type</h2>
+          <div>
+            <h2 id="trend-title">Registrations over time</h2>
+            <p class="caption">One year becomes bars, so a single point is easy to read.</p>
+          </div>
           <div class="icon-buttons">
-            <button type="button" data-table="category" aria-label="Show data table for vehicle type">[]</button>
-            <button type="button" data-enlarge="category" aria-label="Enlarge vehicle type chart">&gt;&lt;</button>
+            <button type="button" data-table="trend" aria-label="Show data table for registrations over time">[]</button>
+            <button type="button" data-enlarge="trend" aria-label="Enlarge registrations over time">&gt;&lt;</button>
           </div>
         </header>
-        <div id="category-chart" class="chart tall"></div>
+        <div id="trend-chart" class="chart tall"></div>
       </article>
-      <div class="stack">
-        <article class="card">
-          <header>
-            <h2 id="trend-title">Registrations over time</h2>
-            <div class="icon-buttons">
-              <button type="button" data-table="trend" aria-label="Show data table for registrations over time">[]</button>
-              <button type="button" data-enlarge="trend" aria-label="Enlarge registrations over time">&gt;&lt;</button>
-            </div>
-          </header>
-          <div id="trend-chart" class="chart"></div>
-        </article>
-        <article class="card">
-          <header>
+      <article class="card">
+        <header>
+          <div>
             <h2>By fuel</h2>
-            <div class="icon-buttons">
-              <button type="button" data-table="fuel" aria-label="Show data table for fuel">[]</button>
-              <button type="button" data-enlarge="fuel" aria-label="Enlarge fuel chart">&gt;&lt;</button>
-            </div>
-          </header>
-          <div id="fuel-chart" class="chart"></div>
-        </article>
-      </div>
+            <p class="caption">Petrol, diesel, electric, and the other cleaned fuels.</p>
+          </div>
+          <div class="icon-buttons">
+            <button type="button" data-table="fuel" aria-label="Show data table for fuel">[]</button>
+            <button type="button" data-enlarge="fuel" aria-label="Enlarge fuel chart">&gt;&lt;</button>
+          </div>
+        </header>
+        <div id="fuel-chart" class="chart tall"></div>
+      </article>
     </section>
     <section class="pair">
       <article class="card">
@@ -119,6 +135,6 @@
     </div>
   </dialog>
   <script src="js/charts.js"></script>
-  <script src="js/historical.js"></script>
+  <script src="js/historical.js?v=2"></script>
 </body>
 </html>

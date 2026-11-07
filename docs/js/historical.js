@@ -87,9 +87,14 @@ function lineSpec(labels, series, label, xTitle, yTitle, compact) {
 function draw() {
   const list = filtered();
   const total = list.reduce((sum, row) => sum + row.count, 0);
-  document.getElementById("summary").textContent = `${total.toLocaleString("en-MY")} registrations match the current filters. Population and income use every numeric column in the cleaned file.`;
   const categories = sumBy(list, "category").sort((a, b) => b[1] - a[1]);
-  const fuels = sumBy(list, "fuel");
+  const fuels = sumBy(list, "fuel").sort((a, b) => b[1] - a[1]);
+  const yearSpan = [...new Set(list.map((row) => row.year))].sort((a, b) => a - b);
+  document.getElementById("summary-total").textContent = total.toLocaleString("en-MY");
+  document.getElementById("summary-type").textContent = categories[0] ? categories[0][0] : "—";
+  document.getElementById("summary-fuel").textContent = fuels[0] ? fuels[0][0] : "—";
+  document.getElementById("summary-years").textContent = yearSpan.length ? (yearSpan.length === 1 ? String(yearSpan[0]) : `${yearSpan[0]}–${yearSpan[yearSpan.length - 1]}`) : "—";
+  document.getElementById("summary").textContent = "Population and income use the age and income columns from the same cleaned file.";
   const years = [...new Set(list.map((row) => row.year))].sort((a, b) => a - b);
   const facts = yearFacts(list);
   const income = selectedIncome();
@@ -102,8 +107,22 @@ function draw() {
   document.getElementById("population-chart").classList.toggle("tall", facts.length <= 1);
   document.getElementById("income-chart").classList.toggle("tall", income.length <= 1);
 
-  specs.category = barSpec(categories.map((item) => item[0]), categories.map((item) => item[1]), "By vehicle type", "Registrations");
-  specs.fuel = barSpec(fuels.map((item) => item[0]), fuels.map((item) => item[1]), "By fuel", "Registrations");
+  specs.category = horizontalSpec(
+    categories.map((item) => item[0]),
+    categories.map((item) => item[1]),
+    categories.map((_, index) => PALETTE[index % PALETTE.length]),
+    "By vehicle type",
+    "Registrations",
+    "Vehicle type"
+  );
+  specs.fuel = horizontalSpec(
+    fuels.map((item) => item[0]),
+    fuels.map((item) => item[1]),
+    fuels.map((_, index) => PALETTE[index % PALETTE.length]),
+    "By fuel",
+    "Registrations",
+    "Fuel"
+  );
 
   if (oneYear) {
     const pairs = sumBy(list, "category").sort((a, b) => b[1] - a[1]);
