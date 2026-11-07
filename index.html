@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Malaysia Vehicle Registration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">
+        <span class="mark">VR</span>
+        <div>
+          <strong>Registration desk</strong>
+          <small>Group 12 records</small>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <a href="index.html" aria-current="page">Overview</a>
+        <a href="historical.html">Historical</a>
+        <a href="predict.html">Forecast</a>
+      </nav>
+    </aside>
+    <div class="workspace">
+      <header class="page-head">
+        <p class="eyebrow">Dashboard · Malaysia vehicle registration</p>
+        <h1>See the numbers and the charts</h1>
+        <p class="lede">Open records for every year, vehicle type, and fuel in the cleaned file. The forecast uses population and mean income.</p>
+        <div class="actions">
+          <a class="button" href="historical.html">Open historical charts</a>
+          <a class="button ghost" href="predict.html">Open forecast</a>
+        </div>
+      </header>
+      <main id="content">
+        <section class="stats" aria-label="Summary">
+          <article class="stat"><span>Registrations in the file</span><strong id="stat-total">—</strong></article>
+          <article class="stat"><span id="stat-year-label">Latest year</span><strong id="stat-year">—</strong></article>
+          <article class="stat"><span>Cars</span><strong id="stat-car">—</strong></article>
+          <article class="stat"><span>Motorcycles</span><strong id="stat-motor">—</strong></article>
+        </section>
+        <section class="home-charts">
+          <article class="chart-card">
+            <header><h2>Registrations over time</h2></header>
+            <div class="chart-wrap"><canvas id="homeTrend"></canvas></div>
+          </article>
+          <article class="chart-card">
+            <header><h2>By vehicle type</h2></header>
+            <div class="chart-wrap"><canvas id="homeTypes"></canvas></div>
+          </article>
+        </section>
+        <p class="note">Counts come from the merged registration file. Filters, population, and income charts are on Historical. The model chart is on Forecast.</p>
+      </main>
+    </div>
+  </div>
+  <script src="js/home.js?v=3"></script>
+</body>
+</html>

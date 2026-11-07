@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prediction · Malaysia Vehicle Registration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">
+        <span class="mark">VR</span>
+        <div>
+          <strong>Registration desk</strong>
+          <small>Group 12 records</small>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <a href="index.html">Overview</a>
+        <a href="historical.html">Historical</a>
+        <a href="predict.html" aria-current="page">Forecast</a>
+      </nav>
+    </aside>
+    <div class="workspace">
+    <header class="page-head">
+      <p class="eyebrow">Forecast</p>
+      <h1>Where the numbers may go</h1>
+    </header>
+    <main id="content">
+      <section class="intro">
+        <p>Enter average income and population, then choose Predict. The chart shows the estimated number of registered vehicles for each vehicle type. The model is the random forest from Assignment 2. It was trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state. Blank values and text are rejected.</p>
+      </section>
+      <section class="predict-layout">
+        <form id="predict-form" class="chart-card criteria" novalidate>
+          <h2>Prediction criteria</h2>
+          <label>Average income
+            <input id="income" name="income" inputmode="numeric" placeholder="9155">
+          </label>
+          <label>Population
+            <input id="population" name="population" inputmode="numeric" placeholder="26813">
+          </label>
+          <button type="submit">Predict</button>
+          <p id="form-error" class="error" role="alert"></p>
+        </form>
+        <article class="chart-card">
+          <header>
+            <h2>Predicted registrations by fuel</h2>
+            <div class="icon-buttons">
+              <button type="button" id="show-table" aria-label="Show prediction data table">[]</button>
+              <button type="button" id="show-enlarge" aria-label="Enlarge prediction chart">&gt;&lt;</button>
+            </div>
+          </header>
+          <div class="chart-wrap"><canvas id="predCategory"></canvas></div>
+          <p id="chart-note" class="note">Loading the chart…</p>
+        </article>
+      </section>
+    </main>
+  <dialog id="enlarge">
+    <header>
+      <h2>Predicted registrations by fuel</h2>
+      <button type="button" id="close-enlarge" aria-label="Close enlarged chart">X</button>
+    </header>
+    <div class="chart-wrap"><canvas id="enlargeChart"></canvas></div>
+  </dialog>
+  <dialog id="table-dialog">
+    <header>
+      <h2>Predicted registrations</h2>
+      <button type="button" id="close-table" aria-label="Close data table">X</button>
+    </header>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr><th>Vehicle type</th><th>Fuel</th><th>Predicted registrations</th></tr>
+        </thead>
+        <tbody id="pred-body"></tbody>
+      </table>
+    </div>
+  </dialog>
+  <footer>The forecast service runs at http://localhost:8000. Keep this page on http://localhost:3000.</footer>
+    </div>
+  </div>
+  <script src="js/predict.js?v=4"></script>
+</body>
+</html>

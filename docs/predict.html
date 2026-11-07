@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Prediction · Malaysia Vehicle Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="index.html">
+      <span class="mark">MY</span>
+      <span><strong>Vehicle registration</strong><small>Group 12 · Malaysia</small></span>
+    </a>
+    <nav class="tabs" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="historical.html">Historical</a>
+      <a href="predict.html" aria-current="page">Forecast</a>
+    </nav>
+  </header>
+  <main class="page" id="content">
+    <p class="eyebrow">Forecast</p>
+    <h1>Where the numbers may go</h1>
+    <p class="lede">Enter average income and population, then choose Predict. Fuel is on the horizontal axis and each colour is one vehicle type, stacked in the same bar. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state. Blank values and text are rejected.</p>
+    <section class="predict-layout">
+      <form id="predict-form" class="card" novalidate>
+        <h2>Prediction criteria</h2>
+        <label>Average income <input id="income" name="income" inputmode="numeric" placeholder="9155"></label>
+        <label>Population <input id="population" name="population" inputmode="numeric" placeholder="26813"></label>
+        <button type="submit">Predict</button>
+        <p id="form-error" class="error" role="alert"></p>
+      </form>
+      <article class="card">
+        <header>
+          <h2>Predicted registrations by fuel</h2>
+          <div class="icon-buttons">
+            <button type="button" id="show-table" aria-label="Show prediction data table">[]</button>
+            <button type="button" id="show-enlarge" aria-label="Enlarge prediction chart">&gt;&lt;</button>
+          </div>
+        </header>
+        <div id="pred-chart" class="chart tall"></div>
+        <p id="chart-note" class="note">Loading the chart…</p>
+      </article>
+    </section>
+    <footer>Open this site through the Python v3 server to run a new forecast. The shared page still shows the latest recorded year.</footer>
+  </main>
+  <dialog id="enlarge">
+    <header>
+      <h2>Predicted registrations by fuel</h2>
+      <button type="button" id="close-enlarge" aria-label="Close enlarged chart">X</button>
+    </header>
+    <div id="enlarge-chart" class="chart tall"></div>
+  </dialog>
+  <dialog id="table-dialog">
+    <header>
+      <h2>Predicted registrations</h2>
+      <button type="button" id="close-table" aria-label="Close data table">X</button>
+    </header>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Vehicle type</th><th>Fuel</th><th>Predicted registrations</th></tr></thead>
+        <tbody id="pred-body"></tbody>
+      </table>
+    </div>
+  </dialog>
+  <script src="js/charts.js"></script>
+  <script src="js/predict.js"></script>
+</body>
+</html>

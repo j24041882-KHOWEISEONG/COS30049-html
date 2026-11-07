@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Historical Data · Malaysia Vehicle Registration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="app">
+    <aside class="side">
+      <div class="brand">
+        <span class="mark">VR</span>
+        <div>
+          <strong>Registration desk</strong>
+          <small>Group 12 records</small>
+        </div>
+      </div>
+      <nav aria-label="Primary">
+        <a href="index.html">Overview</a>
+        <a href="historical.html" aria-current="page">Historical</a>
+        <a href="predict.html">Forecast</a>
+      </nav>
+    </aside>
+    <div class="workspace">
+    <header class="page-head">
+      <p class="eyebrow">Historical data</p>
+      <h1>How registrations changed</h1>
+    </header>
+    <main id="content">
+      <section class="intro">
+        <p>Use the filters to change every chart on this page. Years, average income, vehicle type, and fuel come from the cleaned v2 file. That file is national, so there is no location filter. Choose All to clear one filter, or Reset view to clear every filter. The table button opens the numbers for that chart. The enlarge button opens a larger copy. Axes start at zero.</p>
+      </section>
+      <div class="filters">
+        <label>Years
+          <select id="year"></select>
+        </label>
+        <label>Average income
+          <select id="income"></select>
+        </label>
+        <label>Vehicle types
+          <select id="category"></select>
+        </label>
+        <label>Fuel
+          <select id="fuel"></select>
+        </label>
+        <button type="button" id="reset">Reset view</button>
+      </div>
+      <p id="summary" class="note"></p>
+      <p id="load-error" class="error" role="alert"></p>
+      <section class="dashboard">
+        <article class="chart-card">
+          <header>
+            <h2 id="category-title">By vehicle type</h2>
+            <div class="icon-buttons">
+              <button type="button" data-table="category" aria-label="Show data table for vehicle type">[]</button>
+              <button type="button" data-enlarge="category" aria-label="Enlarge vehicle type chart">&gt;&lt;</button>
+            </div>
+          </header>
+          <div class="chart-wrap main"><canvas id="categoryChart"></canvas></div>
+        </article>
+        <div class="stack">
+          <article class="chart-card">
+            <header>
+              <h2 id="trend-title">Registrations over time</h2>
+              <div class="icon-buttons">
+                <button type="button" data-table="trend" aria-label="Show data table for registrations over time">[]</button>
+                <button type="button" data-enlarge="trend" aria-label="Enlarge registrations over time">&gt;&lt;</button>
+              </div>
+            </header>
+            <div class="chart-wrap short" id="trend-wrap"><canvas id="trendChart"></canvas></div>
+          </article>
+          <article class="chart-card">
+            <header>
+              <h2>By fuel</h2>
+              <div class="icon-buttons">
+                <button type="button" data-table="fuel" aria-label="Show data table for fuel">[]</button>
+                <button type="button" data-enlarge="fuel" aria-label="Enlarge fuel chart">&gt;&lt;</button>
+              </div>
+            </header>
+            <div class="chart-wrap short"><canvas id="fuelChart"></canvas></div>
+          </article>
+        </div>
+      </section>
+      <section class="dashboard">
+        <article class="chart-card">
+          <header>
+            <h2 id="population-title">Population by age group</h2>
+            <div class="icon-buttons">
+              <button type="button" data-table="population" aria-label="Show data table for population">[]</button>
+              <button type="button" data-enlarge="population" aria-label="Enlarge population chart">&gt;&lt;</button>
+            </div>
+          </header>
+          <div class="chart-wrap short" id="population-wrap"><canvas id="populationChart"></canvas></div>
+        </article>
+        <article class="chart-card">
+          <header>
+            <h2 id="income-title">Household income</h2>
+            <div class="icon-buttons">
+              <button type="button" data-table="incomeSeries" aria-label="Show data table for income">[]</button>
+              <button type="button" data-enlarge="incomeSeries" aria-label="Enlarge income chart">&gt;&lt;</button>
+            </div>
+          </header>
+          <div class="chart-wrap short" id="income-wrap"><canvas id="incomeChart"></canvas></div>
+        </article>
+      </section>
+    </main>
+  <dialog id="enlarge">
+    <header>
+      <h2 id="enlarge-title">Chart</h2>
+      <button type="button" id="close-enlarge" aria-label="Close enlarged chart">X</button>
+    </header>
+    <div class="chart-wrap"><canvas id="enlargeChart"></canvas></div>
+  </dialog>
+  <dialog id="table-dialog">
+    <header>
+      <h2 id="table-title">Data table</h2>
+      <button type="button" id="close-table" aria-label="Close data table">X</button>
+    </header>
+    <div style="overflow-x:auto">
+      <table>
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button type="button" id="prev-page">Previous</button>
+      <span id="page-label"></span>
+      <button type="button" id="next-page">Next</button>
+    </div>
+  </dialog>
+  <footer>The cleaned v2 file has no state column. Historical charts and the forecast both cover Malaysia as a whole.</footer>
+    </div>
+  </div>
+  <script src="js/historical.js?v=9"></script>
+</body>
+</html>
