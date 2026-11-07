@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Malaysia Vehicle Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="index.html">
+      <span class="mark">MY</span>
+      <span><strong>Vehicle registration</strong><small>Group 12 · Malaysia</small></span>
+    </a>
+    <nav class="tabs" aria-label="Primary">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="historical.html">Historical</a>
+      <a href="predict.html">Forecast</a>
+    </nav>
+  </header>
+  <main class="page" id="content">
+    <p class="eyebrow">Dashboard</p>
+    <h1>See the records, then the forecast</h1>
+    <p class="lede">National registrations from the cleaned file, for every year, vehicle type, and fuel. Population and mean income feed the forecast. The same numbers are on a phone or a computer.</p>
+    <div class="actions">
+      <a class="button" href="historical.html">Open historical charts</a>
+      <a class="button ghost" href="predict.html">Open forecast</a>
+    </div>
+    <section class="stats" aria-label="Summary">
+      <article class="stat"><span>Registrations in the file</span><strong id="stat-total">—</strong></article>
+      <article class="stat"><span id="stat-year-label">Latest year</span><strong id="stat-year">—</strong></article>
+      <article class="stat"><span>Cars</span><strong id="stat-car">—</strong></article>
+      <article class="stat"><span>Motorcycles</span><strong id="stat-motor">—</strong></article>
+    </section>
+    <section class="split">
+      <article class="card">
+        <header><h2>Registrations over time</h2></header>
+        <div id="home-trend" class="chart tall"></div>
+      </article>
+      <article class="card">
+        <header><h2>By vehicle type</h2></header>
+        <div id="home-types" class="chart tall"></div>
+      </article>
+    </section>
+    <p class="note" id="home-note">Loading the cleaned file…</p>
+  </main>
+  <script src="js/charts.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
