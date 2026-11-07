@@ -10,21 +10,56 @@ async function drawHome() {
     document.getElementById("home-note").textContent = "The cleaned file could not be loaded.";
     return;
   }
-  const rows = d3.csvParse(await response.text()).map((row) => ({
+  const text = await response.text();
+  const rows = d3.csvParse(text).map((row) => ({
     year: Number(row.year),
+    above15: Number(row["above 15"]),
+    below14: Number(row["below 14"]),
     category: row.category,
-    count: Number(row.count) || 0
+    fuel: row.fuel,
+    count: Number(row.count) || 0,
+    income_mean: Number(row.income_mean),
+    income_median: Number(row.income_median)
   }));
   const latest = d3.max(rows, (row) => row.year);
   const years = [...new Set(rows.map((row) => row.year))].sort((a, b) => a - b);
   const categories = [...new Set(rows.map((row) => row.category))].sort();
   const focus = ["car", "motorcycle", "lorry"].filter((name) => categories.includes(name));
+  const total = sum(rows);
+  const latestTotal = sum(rows.filter((row) => row.year === latest));
+  const carTotal = sum(rows.filter((row) => row.category === "car"));
+  const motorTotal = sum(rows.filter((row) => row.category === "motorcycle"));
+  const lorryTotal = sum(rows.filter((row) => row.category === "lorry"));
 
-  document.getElementById("stat-total").textContent = sum(rows).toLocaleString("en-MY");
+  document.getElementById("stat-total").textContent = total.toLocaleString("en-MY");
   document.getElementById("stat-year-label").textContent = `Registrations in ${latest}`;
-  document.getElementById("stat-year").textContent = sum(rows.filter((row) => row.year === latest)).toLocaleString("en-MY");
-  document.getElementById("stat-car").textContent = sum(rows.filter((row) => row.category === "car")).toLocaleString("en-MY");
-  document.getElementById("stat-motor").textContent = sum(rows.filter((row) => row.category === "motorcycle")).toLocaleString("en-MY");
+  document.getElementById("stat-year").textContent = latestTotal.toLocaleString("en-MY");
+  document.getElementById("stat-car").textContent = carTotal.toLocaleString("en-MY");
+  document.getElementById("stat-motor").textContent = motorTotal.toLocaleString("en-MY");
+  document.getElementById("picture-car").textContent = carTotal.toLocaleString("en-MY");
+  document.getElementById("picture-motor").textContent = motorTotal.toLocaleString("en-MY");
+  document.getElementById("picture-lorry").textContent = lorryTotal.toLocaleString("en-MY");
+
+  const byCategory = categories.map((category) => ({
+    category,
+    registrations: sum(rows.filter((row) => row.category === category))
+  })).sort((a, b) => b.registrations - a.registrations);
+  const byYear = years.map((year) => ({
+    year,
+    registrations: sum(rows.filter((row) => row.year === year))
+  }));
+  console.group("Cleaned registration data");
+  console.log("Source: data/merged_pop_vehicle_income_cleaned.csv");
+  console.log("Rows:", rows.length, "Years:", `${years[0]}–${years[years.length - 1]}`);
+  console.log("All registrations:", total);
+  console.log(`Registrations in ${latest}:`, latestTotal);
+  console.log("By vehicle type");
+  console.table(byCategory);
+  console.log("By year");
+  console.table(byYear);
+  console.log("Every row");
+  console.table(rows);
+  console.groupEnd();
 
   drawChart("#home-trend", {
     type: "line",
@@ -51,7 +86,7 @@ async function drawHome() {
       colors: totals.map((_, index) => PALETTE[index % PALETTE.length])
     }]
   });
-  document.getElementById("home-note").textContent = "Counts come from the cleaned national file. Filters, population, and income are on Historical. The model chart is on Forecast.";
+  document.getElementById("home-note").textContent = "Counts on this page add every row in the cleaned national file.";
 }
 
 drawHome();

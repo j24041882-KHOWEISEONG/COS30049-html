@@ -7,7 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=17">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 </head>
 <body>
@@ -23,7 +24,7 @@
   <a class="skip" href="#content">Skip to content</a>
   <header class="top">
     <a class="brand" href="index.html">
-      <span class="mark">MY</span>
+      <img class="mark" src="images/logo.svg" alt="">
       <span><strong>Vehicle registration</strong><small>Group 12 · Malaysia</small></span>
     </a>
     <nav class="tabs" aria-label="Primary">
@@ -35,15 +36,47 @@
   <main class="page" id="content">
     <p class="eyebrow">Forecast</p>
     <h1>Where the numbers may go</h1>
-    <p class="lede">Enter average income and population, then choose Predict. Fuel is on the horizontal axis and each colour is one vehicle type, stacked in the same bar. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state. Blank values and text are rejected.</p>
-    <section class="predict-layout">
-      <form id="predict-form" class="card" novalidate>
-        <h2>Prediction criteria</h2>
-        <label>Average income <input id="income" name="income" inputmode="numeric" placeholder="9155"></label>
-        <label>Population <input id="population" name="population" inputmode="numeric" placeholder="26813"></label>
-        <button type="submit">Predict</button>
-        <p id="form-error" class="error" role="alert"></p>
-      </form>
+    <p class="lede">Pick one vehicle and fuel, say what you are testing, then enter average income and population. Predict draws every fuel. Save keeps that scenario and shows how your chosen pair compares with the latest recorded year. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state.</p>
+    <form id="predict-form" class="card composer" novalidate>
+      <p class="eyebrow">What if</p>
+      <input id="forecast-name" class="title-input" name="name" maxlength="80" placeholder="Name this scenario" aria-label="Scenario name">
+      <input id="forecast-reason" class="reason-input" name="reason" maxlength="160" placeholder="One line on what you are testing" aria-label="What you are testing">
+      <div class="composer-grid">
+        <label class="field-tile">Vehicle type
+          <select id="focus-category">
+            <option value="bus">bus</option>
+            <option value="car" selected>car</option>
+            <option value="lorry">lorry</option>
+            <option value="motorcycle">motorcycle</option>
+            <option value="other">other</option>
+            <option value="trailer">trailer</option>
+            <option value="van">van</option>
+          </select>
+        </label>
+        <label class="field-tile">Fuel
+          <select id="focus-fuel">
+            <option value="diesel">diesel</option>
+            <option value="electric">electric</option>
+            <option value="greendiesel">greendiesel</option>
+            <option value="hybrid">hybrid</option>
+            <option value="other">other</option>
+            <option value="petrol" selected>petrol</option>
+          </select>
+        </label>
+        <label class="field-tile">Average income, RM
+          <input id="income" name="income" inputmode="numeric" placeholder="Type a number">
+        </label>
+        <label class="field-tile">Population (000s)
+          <input id="population" name="population" inputmode="numeric" placeholder="Type a number">
+        </label>
+        <div class="form-actions">
+          <button type="submit">Predict</button>
+          <button type="button" id="save-forecast" class="ghost" disabled>Save</button>
+        </div>
+      </div>
+      <p id="form-error" class="error" role="alert"></p>
+    </form>
+    <section class="stack">
       <article class="card">
         <header>
           <h2>Predicted registrations by fuel</h2>
@@ -56,7 +89,12 @@
         <p id="chart-note" class="note">Loading the chart…</p>
       </article>
     </section>
-    <footer>Open this site through the Python v3 server to run a new forecast. The shared page still shows the latest recorded year.</footer>
+    <section class="card saved-forecasts">
+      <h2>Scenario board</h2>
+      <p id="saved-note" class="note">Each card is one what-if. It keeps the vehicle and fuel you chose, your reason, and the gap against the latest recorded year.</p>
+      <ul id="saved-list" class="saved-list"></ul>
+    </section>
+    <footer>Open this site through the Python v3 server to run a new forecast and to save it. The shared page still shows the latest recorded year.</footer>
   </main>
   <dialog id="enlarge">
     <header>
@@ -78,6 +116,7 @@
     </div>
   </dialog>
   <script src="js/charts.js"></script>
-  <script src="js/predict.js"></script>
+  <script src="js/predict.js?v=5"></script>
+  <script src="js/notices.js"></script>
 </body>
 </html>

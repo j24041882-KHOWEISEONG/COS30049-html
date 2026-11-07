@@ -253,6 +253,13 @@ async function init() {
       incomeRows.push({ year, mean: Number(row.income_mean), median: Number(row.income_median) });
     });
     incomeRows.sort((a, b) => a.year - b.year);
+    console.group("Historical cleaned data");
+    console.log("Source: data/merged_pop_vehicle_income_cleaned.csv");
+    console.log("Registration rows:", rows.length);
+    console.table(rows);
+    console.log("Income by year");
+    console.table(incomeRows);
+    console.groupEnd();
   } catch (error) {
     const loadError = document.getElementById("load-error");
     loadError.textContent = "The cleaned file could not be loaded.";
