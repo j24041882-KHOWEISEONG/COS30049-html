@@ -7,10 +7,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 </head>
 <body>
+  <svg class="sprite" hidden>
+    <symbol id="icon-table" viewBox="0 0 24 24">
+      <rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M4 10h16M4 15h16M10 5v14" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
+    <symbol id="icon-expand" viewBox="0 0 24 24">
+      <path d="M9 5H5v4M15 5h4v4M19 15v4h-4M5 15v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
   <a class="skip" href="#content">Skip to content</a>
   <header class="top">
     <a class="brand" href="index.html">
@@ -26,7 +35,7 @@
   <main class="page history" id="content">
     <p class="eyebrow">Historical data</p>
     <h1>How registrations changed</h1>
-    <p class="lede">Filter the cleaned national file by year, income, vehicle type, or fuel. [] opens the numbers and &gt;&lt; opens a larger chart. Axes start at zero.</p>
+    <p class="lede">Filter the cleaned national file by year, income, vehicle type, or fuel. The table icon opens the numbers and the expand icon opens a larger chart. Axes start at zero.</p>
     <form class="filter-bar" onsubmit="return false">
       <label>Years <select id="year"></select></label>
       <label>Average income <select id="income"></select></label>
@@ -52,8 +61,8 @@
           <p class="caption">The main chart. Longest bar is the largest group.</p>
         </div>
         <div class="icon-buttons">
-          <button type="button" data-table="category" aria-label="Show data table for vehicle type">[]</button>
-          <button type="button" data-enlarge="category" aria-label="Enlarge vehicle type chart">&gt;&lt;</button>
+          <button type="button" data-table="category" aria-label="Show data table for vehicle type" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+          <button type="button" data-enlarge="category" aria-label="Enlarge vehicle type chart" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
         </div>
       </header>
       <div id="category-chart" class="chart xl"></div>
@@ -66,8 +75,8 @@
             <p class="caption">One year becomes bars, so a single point is easy to read.</p>
           </div>
           <div class="icon-buttons">
-            <button type="button" data-table="trend" aria-label="Show data table for registrations over time">[]</button>
-            <button type="button" data-enlarge="trend" aria-label="Enlarge registrations over time">&gt;&lt;</button>
+            <button type="button" data-table="trend" aria-label="Show data table for registrations over time" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+            <button type="button" data-enlarge="trend" aria-label="Enlarge registrations over time" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
           </div>
         </header>
         <div id="trend-chart" class="chart tall"></div>
@@ -79,8 +88,8 @@
             <p class="caption">Petrol, diesel, electric, and the other cleaned fuels.</p>
           </div>
           <div class="icon-buttons">
-            <button type="button" data-table="fuel" aria-label="Show data table for fuel">[]</button>
-            <button type="button" data-enlarge="fuel" aria-label="Enlarge fuel chart">&gt;&lt;</button>
+            <button type="button" data-table="fuel" aria-label="Show data table for fuel" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+            <button type="button" data-enlarge="fuel" aria-label="Enlarge fuel chart" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
           </div>
         </header>
         <div id="fuel-chart" class="chart tall"></div>
@@ -91,8 +100,8 @@
         <header>
           <h2 id="population-title">Population by age group</h2>
           <div class="icon-buttons">
-            <button type="button" data-table="population" aria-label="Show data table for population">[]</button>
-            <button type="button" data-enlarge="population" aria-label="Enlarge population chart">&gt;&lt;</button>
+            <button type="button" data-table="population" aria-label="Show data table for population" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+            <button type="button" data-enlarge="population" aria-label="Enlarge population chart" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
           </div>
         </header>
         <div id="population-chart" class="chart"></div>
@@ -101,8 +110,8 @@
         <header>
           <h2 id="income-title">Household income</h2>
           <div class="icon-buttons">
-            <button type="button" data-table="incomeSeries" aria-label="Show data table for income">[]</button>
-            <button type="button" data-enlarge="incomeSeries" aria-label="Enlarge income chart">&gt;&lt;</button>
+            <button type="button" data-table="incomeSeries" aria-label="Show data table for income" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+            <button type="button" data-enlarge="incomeSeries" aria-label="Enlarge income chart" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
           </div>
         </header>
         <div id="income-chart" class="chart"></div>

@@ -188,12 +188,30 @@ a { color: var(--gold-ink); }
   margin-bottom: 8px;
 }
 
-.icon-buttons { display: flex; gap: 6px; }
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon-buttons { display: flex; gap: 8px; flex: none; }
 .icon-buttons button {
-  width: 44px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
   padding: 0;
-  background: var(--track);
+  border-radius: 999px;
+  background: #f7f1e6;
   color: var(--ink);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.icon-buttons button svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.icon-buttons button:hover,
+.icon-buttons button:focus-visible {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--on-gold);
+  outline: none;
 }
 
 .chart { position: relative; height: 280px; }
