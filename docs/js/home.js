@@ -4,14 +4,30 @@ function sum(rows) {
   return rows.reduce((total, row) => total + row.count, 0);
 }
 
-async function drawHome() {
+async function loadCleanedRows() {
+  try {
+    const response = await fetch("historical");
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data) && data.length) return data;
+    }
+  } catch (error) {
+    // The public page has no Python server, so the cleaned file is used instead.
+  }
   const response = await fetch(DATA_URL);
-  if (!response.ok) {
+  if (!response.ok) throw new Error("missing");
+  return d3.csvParse(await response.text());
+}
+
+async function drawHome() {
+  let records;
+  try {
+    records = await loadCleanedRows();
+  } catch (error) {
     document.getElementById("home-note").textContent = "The cleaned file could not be loaded.";
     return;
   }
-  const text = await response.text();
-  const rows = d3.csvParse(text).map((row) => ({
+  const rows = records.map((row) => ({
     year: Number(row.year),
     above15: Number(row["above 15"]),
     below14: Number(row["below 14"]),

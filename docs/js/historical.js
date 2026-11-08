@@ -232,12 +232,26 @@ function enlarge(kind) {
   requestAnimationFrame(() => drawChart("#enlarge-chart", spec));
 }
 
+async function loadCleanedRows() {
+  try {
+    const response = await fetch("historical");
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data) && data.length) return { rows: data, source: "GET /historical" };
+    }
+  } catch (error) {
+    // The public page has no Python server, so the cleaned file is used instead.
+  }
+  const response = await fetch(DATA_URL);
+  if (!response.ok) throw new Error("missing");
+  return { rows: d3.csvParse(await response.text()), source: DATA_URL };
+}
+
 async function init() {
   try {
-    const response = await fetch(DATA_URL);
-    if (!response.ok) throw new Error("missing");
+    const loaded = await loadCleanedRows();
     const seen = new Set();
-    d3.csvParse(await response.text()).forEach((row) => {
+    loaded.rows.forEach((row) => {
       const year = Number(row.year);
       rows.push({
         year,
@@ -254,7 +268,7 @@ async function init() {
     });
     incomeRows.sort((a, b) => a.year - b.year);
     console.group("Historical cleaned data");
-    console.log("Source: data/merged_pop_vehicle_income_cleaned.csv");
+    console.log("Source:", loaded.source);
     console.log("Registration rows:", rows.length);
     console.table(rows);
     console.log("Income by year");

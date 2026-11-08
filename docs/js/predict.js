@@ -152,9 +152,22 @@ function loadBaseline() {
 }
 
 async function readBaseline() {
-  const response = await fetch(DATA_URL);
-  if (!response.ok) throw new Error("missing data");
-  const parsed = d3.csvParse(await response.text()).map((row) => ({
+  let records;
+  try {
+    const response = await fetch("historical");
+    if (response.ok) {
+      const data = await response.json();
+      if (Array.isArray(data) && data.length) records = data;
+    }
+  } catch (error) {
+    records = null;
+  }
+  if (!records) {
+    const response = await fetch(DATA_URL);
+    if (!response.ok) throw new Error("missing data");
+    records = d3.csvParse(await response.text());
+  }
+  const parsed = records.map((row) => ({
     year: Number(row.year),
     category: row.category,
     fuel: row.fuel,

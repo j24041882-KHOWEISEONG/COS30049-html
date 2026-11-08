@@ -1,3 +1,4 @@
+import csv
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -19,6 +20,7 @@ from model import SimpleModel
 from utils import logger
 
 SITE = Path(__file__).resolve().parent.parent / "docs"
+CLEANED = SITE / "data" / "merged_pop_vehicle_income_cleaned.csv"
 
 app = FastAPI()
 app.add_middleware(
@@ -50,6 +52,14 @@ class ForecastInput(BaseModel):
 
     def cleaned(self, value):
         return " ".join(value.split())
+
+
+@app.get("/historical")
+async def read_historical():
+    if not CLEANED.exists():
+        raise HTTPException(status_code=404, detail="Cleaned file not found")
+    with CLEANED.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
 
 
 @app.post("/predict")
