@@ -554,7 +554,7 @@ footer { color: var(--muted); font-size: 0.82rem; margin-top: 18px; }
 
 .filter-bar {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) auto;
   gap: 10px;
   align-items: end;
   background: var(--panel);

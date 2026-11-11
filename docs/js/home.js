@@ -1,5 +1,5 @@
 // (2) HOMEPAGE START
-const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
+const DATA_URL = "data/historical_dataset.csv";
 
 function sum(rows) {
   return rows.reduce((total, row) => total + row.count, 0);
@@ -25,11 +25,11 @@ async function drawHome() {
   try {
     records = await loadCleanedRows();
   } catch (error) {
-    document.getElementById("home-note").textContent = "The cleaned file could not be loaded.";
+    document.getElementById("home-note").textContent = "The historical file could not be loaded.";
     return;
   }
   const rows = records.map((row) => ({
-    year: Number(row.year),
+    year: Number(row.year || row.date),
     above15: Number(row["above 15"]),
     below14: Number(row["below 14"]),
     category: row.category,
@@ -66,7 +66,7 @@ async function drawHome() {
     registrations: sum(rows.filter((row) => row.year === year))
   }));
   console.group("Cleaned registration data");
-  console.log("Source: data/merged_pop_vehicle_income_cleaned.csv");
+  console.log("Source: data/historical_dataset.csv");
   console.log("Rows:", rows.length, "Years:", `${years[0]}–${years[years.length - 1]}`);
   console.log("All registrations:", total);
   console.log(`Registrations in ${latest}:`, latestTotal);
@@ -103,7 +103,7 @@ async function drawHome() {
       colors: totals.map((_, index) => PALETTE[index % PALETTE.length])
     }]
   });
-  document.getElementById("home-note").textContent = "Counts on this page add every row in the cleaned national file.";
+  document.getElementById("home-note").textContent = "Counts on this page add every state row in the historical file.";
 }
 
 drawHome();

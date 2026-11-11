@@ -1,5 +1,5 @@
 // (3) HISTORICAL START
-const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
+const DATA_URL = "data/historical_dataset.csv";
 const PAGE_SIZE = 12;
 const rows = [];
 const incomeRows = [];
@@ -11,6 +11,7 @@ const yearSelect = document.getElementById("year");
 const incomeSelect = document.getElementById("income");
 const categorySelect = document.getElementById("category");
 const fuelSelect = document.getElementById("fuel");
+const stateSelect = document.getElementById("state");
 
 function sumBy(list, key) {
   const totals = new Map();
@@ -32,6 +33,7 @@ function filtered() {
     if (incomeSelect.value !== "all" && row.incomeKey !== incomeSelect.value) return false;
     if (categorySelect.value !== "all" && row.category !== categorySelect.value) return false;
     if (fuelSelect.value !== "all" && row.fuel !== fuelSelect.value) return false;
+    if (stateSelect.value !== "all" && row.state !== stateSelect.value) return false;
     return true;
   });
 }
@@ -95,7 +97,7 @@ function draw() {
   document.getElementById("summary-type").textContent = categories[0] ? categories[0][0] : "—";
   document.getElementById("summary-fuel").textContent = fuels[0] ? fuels[0][0] : "—";
   document.getElementById("summary-years").textContent = yearSpan.length ? (yearSpan.length === 1 ? String(yearSpan[0]) : `${yearSpan[0]}–${yearSpan[yearSpan.length - 1]}`) : "—";
-  document.getElementById("summary").textContent = "Population and income use the age and income columns from the same cleaned file.";
+  document.getElementById("summary").textContent = "Population and income use the age and income columns from the same historical file.";
   const years = [...new Set(list.map((row) => row.year))].sort((a, b) => a - b);
   const facts = yearFacts(list);
   const income = selectedIncome();
@@ -253,13 +255,14 @@ async function init() {
     const loaded = await loadCleanedRows();
     const seen = new Set();
     loaded.rows.forEach((row) => {
-      const year = Number(row.year);
+      const year = Number(row.year || row.date);
       rows.push({
         year,
         above15: Number(row["above 15"]),
         below14: Number(row["below 14"]),
         category: row.category,
         fuel: row.fuel,
+        state: row.state || "Malaysia",
         count: Number(row.count) || 0,
         incomeKey: String(Math.round(Number(row.income_mean)))
       });
@@ -277,7 +280,7 @@ async function init() {
     console.groupEnd();
   } catch (error) {
     const loadError = document.getElementById("load-error");
-    loadError.textContent = "The cleaned file could not be loaded.";
+    loadError.textContent = "The historical file could not be loaded.";
     loadError.classList.add("show");
     return;
   }
@@ -286,10 +289,11 @@ async function init() {
   fillSelect(incomeSelect, unique("incomeKey"), (value) => `RM ${Number(value).toLocaleString("en-MY")}`);
   fillSelect(categorySelect, unique("category"));
   fillSelect(fuelSelect, unique("fuel"));
+  fillSelect(stateSelect, unique("state"));
   draw();
-  [yearSelect, incomeSelect, categorySelect, fuelSelect].forEach((select) => select.addEventListener("change", draw));
+  [yearSelect, incomeSelect, categorySelect, fuelSelect, stateSelect].forEach((select) => select.addEventListener("change", draw));
   document.getElementById("reset").addEventListener("click", () => {
-    [yearSelect, incomeSelect, categorySelect, fuelSelect].forEach((select) => { select.value = "all"; });
+    [yearSelect, incomeSelect, categorySelect, fuelSelect, stateSelect].forEach((select) => { select.value = "all"; });
     draw();
   });
   document.querySelectorAll("[data-table]").forEach((button) => button.addEventListener("click", () => showTable(button.dataset.table)));

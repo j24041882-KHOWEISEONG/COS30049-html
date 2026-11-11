@@ -1,5 +1,5 @@
 // (4) PREDICTION START
-const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
+const DATA_URL = "data/historical_dataset.csv";
 const form = document.getElementById("predict-form");
 const errorBox = document.getElementById("form-error");
 const note = document.getElementById("chart-note");
@@ -169,7 +169,7 @@ async function readBaseline() {
     records = d3.csvParse(await response.text());
   }
   const parsed = records.map((row) => ({
-    year: Number(row.year),
+    year: Number(row.year || row.date),
     category: row.category,
     fuel: row.fuel,
     count: Number(row.count) || 0
