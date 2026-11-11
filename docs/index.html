@@ -20,7 +20,7 @@
     main { max-width: 1080px; margin: 0 auto; padding: 48px 20px 64px; }
     h1 { font-family: Fraunces, serif; font-size: 2.4rem; line-height: 1.1; margin: 0 0 10px; }
     p { margin: 0; color: #5d6b7a; }
-    .choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+    .choices { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 28px; }
     a.card {
       display: block;
       text-decoration: none;
@@ -34,14 +34,13 @@
     a.card:hover { border-color: #c8960f; }
     a.card strong { display: block; font-family: Fraunces, serif; font-size: 1.6rem; margin-bottom: 8px; }
     a.card span { color: #c8960f; font-size: 0.85rem; font-weight: 600; }
-    @media (max-width: 1000px) { .choices { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 640px) { .choices { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
+    @media (max-width: 800px) { .choices { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
   </style>
 </head>
 <body>
   <main>
     <h1>Three versions of the site</h1>
-    <p>v3 is the previous cleaned file. v4 uses the zip data in our pages. v5 is the website from the zip. Final version is the same finished v5 site in its own folder.</p>
+    <p>v3 is the previous cleaned file. v4 uses the zip data in our pages. v5 is the website from the zip.</p>
     <div class="choices">
       <a class="card" href="v3/index.html">
         <span>Previous data</span>
@@ -57,11 +56,6 @@
         <span>Zip website</span>
         <strong>Version 5</strong>
         <p>The D3 platform, with Home, Historical Data, and Prediction.</p>
-      </a>
-      <a class="card" href="final-version/index.html">
-        <span>Submit this folder</span>
-        <strong>Final version</strong>
-        <p>A full copy of v5, kept in its own folder.</p>
       </a>
     </div>
   </main>
