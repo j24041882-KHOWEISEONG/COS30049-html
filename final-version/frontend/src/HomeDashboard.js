@@ -19,12 +19,11 @@ export default function HomeDashboard({ onOpenHistorical, onOpenPrediction }) {
   const years = uniqueSorted(rows, 'year');
   const latest = years[years.length - 1];
   const latestRows = rows.filter((row) => row.year === latest);
-  const focus = ['car', 'motorcycle', 'lorry'];
   const categories = uniqueSorted(rows, 'category');
   const totals = categories
     .map((category) => [category, sumCount(rows.filter((row) => row.category === category))])
     .sort((a, b) => b[1] - a[1]);
-  const series = focus.map((name) => ({
+  const series = totals.map(([name]) => ({
     name,
     points: years.map((year) => ({
       x: String(year),
@@ -72,7 +71,8 @@ export default function HomeDashboard({ onOpenHistorical, onOpenPrediction }) {
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
         <Paper elevation={3} sx={{ p: 2 }}>
           <Typography fontWeight="bold" gutterBottom>Registrations over time</Typography>
-          {rows.length > 0 && <LineChart series={series} height={300} />}
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1 }}>Move or tap a year. The tip lists every vehicle type.</Typography>
+          {rows.length > 0 && <LineChart series={series} height={300} xLabel="Year" totalLabel="Total registrations" />}
         </Paper>
         <Paper elevation={3} sx={{ p: 2 }}>
           <Typography fontWeight="bold" gutterBottom>By vehicle type</Typography>

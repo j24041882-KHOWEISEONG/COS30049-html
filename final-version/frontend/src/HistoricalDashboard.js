@@ -213,7 +213,7 @@ export default function HistoricalDashboard({ focus }) {
         <Typography variant="overline" color="primary">Historical data</Typography>
         <Typography variant="h5" fontWeight="bold">How registrations changed</Typography>
         <Typography color="text.secondary">
-          Tick any year, state, income, vehicle type, or fuel. Hover a year on a line chart to see every line at that year. Axes start at zero.
+          Tick any year, state, income, vehicle type, or fuel. On the line chart, move or tap a year and the tip lists every vehicle type. Axes start at zero.
         </Typography>
       </Box>
       {selected && (
@@ -235,11 +235,13 @@ export default function HistoricalDashboard({ focus }) {
       {error && <Typography color="error">{error}</Typography>}
       {rows.length > 0 && (
         <>
+          <ChartCard title={chartTitles.trend} caption="Move or tap a year. The tip lists every vehicle type at that year." onTable={() => setTable('trend')} onEnlarge={() => setEnlarged('trend')}>
+            {chartFor('trend', false)}
+          </ChartCard>
           <ChartCard title={chartTitles.type} caption="The longest bar is the largest group." onTable={() => setTable('type')} onEnlarge={() => setEnlarged('type')}>
             {chartFor('type', false)}
           </ChartCard>
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 2 }}>
-            <ChartCard title={chartTitles.trend} caption="Hover a year to see every vehicle type." onTable={() => setTable('trend')} onEnlarge={() => setEnlarged('trend')}>{chartFor('trend', false)}</ChartCard>
             <ChartCard title={chartTitles.fuel} caption="The original fuel names, including hybrid petrol and natural gas." onTable={() => setTable('fuel')} onEnlarge={() => setEnlarged('fuel')}>{chartFor('fuel', false)}</ChartCard>
             <ChartCard title={chartTitles.population} caption="Hover a year to see both age groups." onTable={() => setTable('population')} onEnlarge={() => setEnlarged('population')}>{chartFor('population', false)}</ChartCard>
             <ChartCard title={chartTitles.income} caption="Hover a year to see mean and median." onTable={() => setTable('income')} onEnlarge={() => setEnlarged('income')}>{chartFor('income', false)}</ChartCard>

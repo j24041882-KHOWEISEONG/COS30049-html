@@ -225,58 +225,75 @@ export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = 
       return distance < best.distance ? { label, distance } : best;
     }, { label: labels[0], distance: Infinity }).label;
 
+    const showTip = (event) => {
+      const source = event.sourceEvent || event;
+      const [mouseX] = d3.pointer(source, root.node());
+      const label = nearest(mouseX);
+      const at = x(label);
+      band.attr('x', at - bandWidth / 2).style('opacity', 1);
+      guide.attr('x1', at).attr('x2', at).style('opacity', 1);
+      root.selectAll('.series-point')
+        .attr('r', (point) => (point.x === label ? 5.5 : pointRadius))
+        .attr('stroke', (point) => (point.x === label ? '#121a28' : 'none'))
+        .attr('stroke-width', 1.5);
+      const rows = plotted.map((item, index) => {
+        const point = item.points.find((entry) => entry.x === label);
+        const value = point && Number.isFinite(point.y) ? point.y : 0;
+        return { name: item.name, value, color: seriesColor(item.color, index) };
+      });
+      const breakdown = rows.map((row) => (
+        `<div>&bull; <span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${row.color};margin-right:6px;"></span>` +
+          `<span style="text-transform:capitalize">${escapeTip(row.name)}</span>: ` +
+          `<strong>${Number(row.value).toLocaleString('en-MY')}</strong></div>`
+      )).join('');
+      const total = rows.reduce((sum, row) => sum + row.value, 0);
+      const totalHtml = totalLabel
+        ? `<div style="margin-bottom:4px;"><strong>${escapeTip(totalLabel)}: ${total.toLocaleString('en-MY')}</strong></div>`
+        : '';
+      const tooltipWidth = 260;
+      const clientX = source.clientX || 0;
+      const clientY = source.clientY || 0;
+      const left = clientX + tooltipWidth + 30 > window.innerWidth
+        ? clientX - tooltipWidth - 15
+        : clientX + 16;
+      tip.style('visibility', 'visible')
+        .html(
+          `<div style="border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:6px;margin-bottom:6px;font-size:13.5px;font-weight:bold;">` +
+            `${escapeTip(xLabel)}: ${escapeTip(label)}` +
+          `</div>${totalHtml}${breakdown}`
+        )
+        .style('top', `${Math.max(15, clientY - 70)}px`)
+        .style('left', `${left}px`);
+    };
+    const hideTip = () => {
+      band.style('opacity', 0);
+      guide.style('opacity', 0);
+      root.selectAll('.series-point').attr('r', pointRadius).attr('stroke', 'none');
+      tip.style('visibility', 'hidden');
+    };
+    const outside = (event) => {
+      if (!node.contains(event.target)) hideTip();
+    };
+    window.addEventListener('pointerdown', outside);
+
     root.append('rect')
       .attr('width', innerW)
       .attr('height', innerH)
       .attr('fill', 'transparent')
       .style('cursor', 'crosshair')
-      .on('mousemove', (event) => {
-        const [mouseX] = d3.pointer(event);
-        const label = nearest(mouseX);
-        const at = x(label);
-        band.attr('x', at - bandWidth / 2).style('opacity', 1);
-        guide.attr('x1', at).attr('x2', at).style('opacity', 1);
-        root.selectAll('.series-point')
-          .attr('r', (point) => (point.x === label ? 5.5 : pointRadius))
-          .attr('stroke', (point) => (point.x === label ? '#121a28' : 'none'))
-          .attr('stroke-width', 1.5);
-        const rows = plotted.map((item, index) => {
-          const point = item.points.find((entry) => entry.x === label);
-          const value = point && Number.isFinite(point.y) ? point.y : 0;
-          return { name: item.name, value, color: seriesColor(item.color, index) };
-        });
-        const breakdown = rows.map((row) => (
-          `<div style="display:flex;justify-content:space-between;gap:16px;margin-top:2px;">` +
-            `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${row.color};margin-right:6px;"></span>` +
-            `<span style="text-transform:capitalize">${escapeTip(row.name)}</span></span>` +
-            `<strong>${Number(row.value).toLocaleString('en-MY')}</strong>` +
-          `</div>`
-        )).join('');
-        const total = rows.reduce((sum, row) => sum + row.value, 0);
-        const totalHtml = totalLabel
-          ? `<div style="margin-bottom:4px;"><strong>${escapeTip(totalLabel)}: ${total.toLocaleString('en-MY')}</strong></div>`
-          : '';
-        const tooltipWidth = 260;
-        const left = event.clientX + tooltipWidth + 30 > window.innerWidth
-          ? event.clientX - tooltipWidth - 15
-          : event.clientX + 16;
-        tip.style('visibility', 'visible')
-          .html(
-            `<div style="border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:6px;margin-bottom:6px;font-size:13.5px;font-weight:bold;">` +
-              `${escapeTip(xLabel)}: ${escapeTip(label)}` +
-            `</div>${totalHtml}${breakdown}`
-          )
-          .style('top', `${Math.max(15, event.clientY - 70)}px`)
-          .style('left', `${left}px`);
-      })
-      .on('mouseleave', () => {
-        band.style('opacity', 0);
-        guide.style('opacity', 0);
-        root.selectAll('.series-point').attr('r', pointRadius).attr('stroke', 'none');
-        tip.style('visibility', 'hidden');
+      .style('touch-action', 'none')
+      .on('pointermove', showTip)
+      .on('pointerdown', showTip)
+      .on('pointerleave', (event) => {
+        const source = event.sourceEvent || event;
+        if (source.pointerType && source.pointerType !== 'mouse') return;
+        hideTip();
       });
 
-    return () => { tip.remove(); };
+    return () => {
+      window.removeEventListener('pointerdown', outside);
+      tip.remove();
+    };
   }, [signature, width, height, xLabel, totalLabel]);
 
   return (
