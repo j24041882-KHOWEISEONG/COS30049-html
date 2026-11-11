@@ -8,8 +8,8 @@ from pydantic import BaseModel, Field
 from model import SimpleModel
 from utils import logger
 
-SITE = Path(__file__).resolve().parent
-CLEANED = SITE / "data" / "historical_dataset.csv"
+ROOT = Path(__file__).resolve().parent.parent
+CLEANED = ROOT / "frontend" / "public" / "data" / "historical_dataset.csv"
 
 app = FastAPI()
 app.add_middleware(
