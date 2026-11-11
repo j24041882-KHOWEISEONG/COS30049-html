@@ -4,7 +4,7 @@ Group 12 website. Version 5 is the page we share.
 
 ## Navigation
 
-The menu bar has three pages:
+The menu is a bar across the top. The mark and title sit on the left. Home, Historical, and Prediction sit on the right, and the open page is filled in blue.
 
 1. **Home** shows the overview: total registrations, cars, motorcycles, and the two summary charts.
 2. **Historical Data** shows the historical dashboard. Filters are year, state, average income, vehicle type, and fuel. Each chart has a table and a larger view.
