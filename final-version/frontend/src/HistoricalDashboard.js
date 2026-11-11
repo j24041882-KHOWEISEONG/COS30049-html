@@ -5,7 +5,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography
 } from '@mui/material';
 import { loadHistoricalRows, sumCount, uniqueSorted } from './historicalData';
-import { BarChart, LineChart } from './d3charts';
+import { BarChart, LineChart, lineColor } from './d3charts';
 
 const filters = [
   ['year', 'Year'],
@@ -52,6 +52,7 @@ export default function HistoricalDashboard({ focus }) {
   const [selected, setSelected] = useState(null);
   const [table, setTable] = useState(null);
   const [enlarged, setEnlarged] = useState(null);
+  const [hoverYear, setHoverYear] = useState('');
 
   useEffect(() => {
     loadHistoricalRows()
@@ -213,7 +214,7 @@ export default function HistoricalDashboard({ focus }) {
         <Typography variant="overline" color="primary">Historical data</Typography>
         <Typography variant="h5" fontWeight="bold">How registrations changed</Typography>
         <Typography color="text.secondary">
-          Tick any year, state, income, vehicle type, or fuel. On the line chart, move or tap a year and the tip lists every vehicle type. Axes start at zero.
+          Tick any year, state, income, vehicle type, or fuel. The list beside the line chart shows every vehicle type. Move along the chart to change the year. Axes start at zero.
         </Typography>
       </Box>
       {selected && (
@@ -235,8 +236,11 @@ export default function HistoricalDashboard({ focus }) {
       {error && <Typography color="error">{error}</Typography>}
       {rows.length > 0 && (
         <>
-          <ChartCard title={chartTitles.trend} caption="Move or tap a year. The tip lists every vehicle type at that year." onTable={() => setTable('trend')} onEnlarge={() => setEnlarged('trend')}>
-            {chartFor('trend', false)}
+          <ChartCard title={chartTitles.trend} caption="The list shows every vehicle type. Move along the chart to change the year." onTable={() => setTable('trend')} onEnlarge={() => setEnlarged('trend')}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1fr) 280px' }, gap: 2, alignItems: 'start' }}>
+              <LineChart series={trend} height={320} xLabel="Year" totalLabel="Total registrations" onPoint={setHoverYear} />
+              <YearReadout year={years.some((year) => String(year) === hoverYear) ? hoverYear : String(years[years.length - 1] || '')} series={trend} />
+            </Box>
           </ChartCard>
           <ChartCard title={chartTitles.type} caption="The longest bar is the largest group." onTable={() => setTable('type')} onEnlarge={() => setEnlarged('type')}>
             {chartFor('type', false)}
@@ -340,6 +344,36 @@ function CheckboxMultiSelect({ label, options, selected, onChange, formatOption 
         ))}
       </Select>
     </FormControl>
+  );
+}
+
+function YearReadout({ year, series }) {
+  const rows = series.map((item, index) => {
+    const point = item.points.find((entry) => entry.x === year);
+    return {
+      name: item.name,
+      color: lineColor(index),
+      value: point && Number.isFinite(point.y) ? point.y : 0
+    };
+  });
+  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  return (
+    <Box sx={{ p: 2, bgcolor: '#fffcf6', border: '1px solid #e6dfd2', borderTop: '3px solid #c8960f', borderRadius: 2 }}>
+      <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7a5a08' }}>Year</Typography>
+      <Typography sx={{ fontFamily: 'Fraunces, Georgia, serif', fontSize: '1.8rem', lineHeight: 1.1, color: '#121a28' }}>{year || '—'}</Typography>
+      <Typography sx={{ mt: 1.2, fontWeight: 700, color: '#121a28' }}>Total registrations: {total.toLocaleString('en-MY')}</Typography>
+      <Stack spacing={0.7} sx={{ mt: 1.2 }}>
+        {rows.map((row) => (
+          <Box key={row.name} sx={{ display: 'flex', justifyContent: 'space-between', gap: 1, alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8, minWidth: 0 }}>
+              <Box sx={{ width: 10, height: 10, borderRadius: '2px', bgcolor: row.color, flexShrink: 0 }} />
+              <Typography sx={{ textTransform: 'capitalize', color: '#2a3544' }}>{row.name}</Typography>
+            </Box>
+            <Typography fontWeight={700} sx={{ color: '#121a28' }}>{row.value.toLocaleString('en-MY')}</Typography>
+          </Box>
+        ))}
+      </Stack>
+    </Box>
   );
 }
 

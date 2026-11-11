@@ -9,6 +9,10 @@ function seriesColor(color, index) {
   return String(value).toLowerCase() === '#f0e442' ? '#c8960f' : value;
 }
 
+export function lineColor(index) {
+  return seriesColor(null, index);
+}
+
 function useWidth(ref) {
   const [width, setWidth] = useState(640);
   useEffect(() => {
@@ -146,9 +150,11 @@ function escapeTip(value) {
   }[char]));
 }
 
-export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = '' }) {
+export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = '', onPoint }) {
   const ref = useRef(null);
   const width = useWidth(ref);
+  const onPointRef = useRef(onPoint);
+  onPointRef.current = onPoint;
   const drawn = series.filter((item) => item.points && item.points.length);
   const signature = JSON.stringify(drawn.map((item) => ({
     name: item.name,
@@ -251,6 +257,7 @@ export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = 
         ? `<div style="margin-bottom:4px;"><strong>${escapeTip(totalLabel)}: ${total.toLocaleString('en-MY')}</strong></div>`
         : '';
       const tooltipWidth = 260;
+      if (onPointRef.current) onPointRef.current(label);
       const clientX = source.clientX || 0;
       const clientY = source.clientY || 0;
       const left = clientX + tooltipWidth + 30 > window.innerWidth
@@ -275,6 +282,7 @@ export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = 
       if (!node.contains(event.target)) hideTip();
     };
     window.addEventListener('pointerdown', outside);
+    if (onPointRef.current && labels.length) onPointRef.current(labels[labels.length - 1]);
 
     root.append('rect')
       .attr('width', innerW)
