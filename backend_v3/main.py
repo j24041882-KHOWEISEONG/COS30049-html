@@ -19,8 +19,8 @@ from database import (
 from model import SimpleModel
 from utils import logger
 
-SITE = Path(__file__).resolve().parent.parent / "docs"
-CLEANED = SITE / "data" / "historical_dataset.csv"
+SITE = Path(__file__).resolve().parent.parent / "docs" / "v3"
+CLEANED = SITE / "data" / "merged_pop_vehicle_income_cleaned.csv"
 
 app = FastAPI()
 app.add_middleware(
@@ -39,22 +39,7 @@ class PredictionInput(BaseModel):
 
 
 CATEGORIES = {"bus", "car", "lorry", "motorcycle", "other", "trailer", "van"}
-FUELS = {
-    "diesel",
-    "diesel_ng",
-    "electric",
-    "greendiesel",
-    "greendiesel_ng",
-    "hybrid_diesel",
-    "hybrid_petrol",
-    "hydrogen",
-    "lng",
-    "ng",
-    "other",
-    "petrol",
-    "petrol_lng",
-    "petrol_ng",
-}
+FUELS = {"diesel", "electric", "greendiesel", "hybrid", "other", "petrol"}
 
 
 class ForecastInput(BaseModel):
@@ -72,7 +57,7 @@ class ForecastInput(BaseModel):
 @app.get("/historical")
 async def read_historical():
     if not CLEANED.exists():
-        raise HTTPException(status_code=404, detail="Historical file not found")
+        raise HTTPException(status_code=404, detail="Cleaned file not found")
     with CLEANED.open(newline="", encoding="utf-8") as handle:
         return list(csv.DictReader(handle))
 

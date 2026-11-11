@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Prediction · Malaysia Vehicle Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=18">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+  <svg class="sprite" hidden>
+    <symbol id="icon-table" viewBox="0 0 24 24">
+      <rect x="4" y="5" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <path d="M4 10h16M4 15h16M10 5v14" fill="none" stroke="currentColor" stroke-width="1.8"/>
+    </symbol>
+    <symbol id="icon-expand" viewBox="0 0 24 24">
+      <path d="M9 5H5v4M15 5h4v4M19 15v4h-4M5 15v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+  <a class="skip" href="#content">Skip to content</a>
+  <!-- (1) SHARED START: page title and menu bar -->
+  <header class="top">
+    <a class="brand" href="index.html">
+      <img class="mark" src="images/logo.svg" alt="">
+      <span><strong>Vehicle registration</strong><small>Group 12 · v4</small></span>
+    </a>
+    <nav class="tabs" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="historical.html">Historical</a>
+      <a href="predict.html" aria-current="page">Forecast</a>
+    </nav>
+  </header>
+  <!-- (1) SHARED END -->
+  <!-- (4) PREDICTION START -->
+  <main class="page" id="content">
+    <p class="eyebrow">Forecast</p>
+    <h1>Where the numbers may go</h1>
+    <p class="lede">Pick one vehicle and fuel, say what you are testing, then enter average income and population. Predict draws every fuel from the shared model, including hybrid petrol, hybrid diesel, and natural gas. Save keeps that scenario and shows how your chosen pair compares with the latest recorded year. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state.</p>
+    <form id="predict-form" class="card composer" novalidate>
+      <p class="eyebrow">What if</p>
+      <input id="forecast-name" class="title-input" name="name" maxlength="80" placeholder="Name this scenario" aria-label="Scenario name">
+      <input id="forecast-reason" class="reason-input" name="reason" maxlength="160" placeholder="One line on what you are testing" aria-label="What you are testing">
+      <div class="composer-grid">
+        <label class="field-tile">Vehicle type
+          <select id="focus-category">
+            <option value="bus">bus</option>
+            <option value="car" selected>car</option>
+            <option value="lorry">lorry</option>
+            <option value="motorcycle">motorcycle</option>
+            <option value="other">other</option>
+            <option value="trailer">trailer</option>
+            <option value="van">van</option>
+          </select>
+        </label>
+        <label class="field-tile">Fuel
+          <select id="focus-fuel">
+            <option value="diesel">diesel</option>
+            <option value="diesel_ng">diesel_ng</option>
+            <option value="electric">electric</option>
+            <option value="greendiesel">greendiesel</option>
+            <option value="greendiesel_ng">greendiesel_ng</option>
+            <option value="hybrid_diesel">hybrid_diesel</option>
+            <option value="hybrid_petrol">hybrid_petrol</option>
+            <option value="hydrogen">hydrogen</option>
+            <option value="lng">lng</option>
+            <option value="ng">ng</option>
+            <option value="other">other</option>
+            <option value="petrol" selected>petrol</option>
+            <option value="petrol_lng">petrol_lng</option>
+            <option value="petrol_ng">petrol_ng</option>
+          </select>
+        </label>
+        <label class="field-tile">Average income, RM
+          <input id="income" name="income" inputmode="numeric" placeholder="Type a number">
+        </label>
+        <label class="field-tile">Population (000s)
+          <input id="population" name="population" inputmode="numeric" placeholder="Type a number">
+        </label>
+        <div class="form-actions">
+          <button type="submit">Predict</button>
+          <button type="button" id="save-forecast" class="ghost" disabled>Save</button>
+        </div>
+      </div>
+      <p id="form-error" class="error" role="alert"></p>
+    </form>
+    <section class="stack">
+      <article class="card">
+        <header>
+          <h2>Predicted registrations by fuel</h2>
+          <div class="icon-buttons">
+            <button type="button" id="show-table" aria-label="Show prediction data table" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
+            <button type="button" id="show-enlarge" aria-label="Enlarge prediction chart" title="Larger chart"><svg aria-hidden="true"><use href="#icon-expand"/></svg></button>
+          </div>
+        </header>
+        <div id="pred-chart" class="chart tall"></div>
+        <p id="chart-note" class="note">Loading the chart…</p>
+      </article>
+    </section>
+    <section class="card saved-forecasts">
+      <h2>Scenario board</h2>
+      <p id="saved-note" class="note">Each card is one what-if. It keeps the vehicle and fuel you chose, your reason, and the gap against the latest recorded year.</p>
+      <ul id="saved-list" class="saved-list"></ul>
+    </section>
+    <footer>Open this site through the Python v3 server to run a new forecast and to save it. The shared page still shows the latest recorded year.</footer>
+  </main>
+  <dialog id="enlarge">
+    <header>
+      <h2>Predicted registrations by fuel</h2>
+      <button type="button" id="close-enlarge" aria-label="Close enlarged chart">X</button>
+    </header>
+    <div id="enlarge-chart" class="chart tall"></div>
+  </dialog>
+  <dialog id="table-dialog">
+    <header>
+      <h2>Predicted registrations</h2>
+      <button type="button" id="close-table" aria-label="Close data table">X</button>
+    </header>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Vehicle type</th><th>Fuel</th><th>Predicted registrations</th></tr></thead>
+        <tbody id="pred-body"></tbody>
+      </table>
+    </div>
+  </dialog>
+  <!-- (4) PREDICTION END -->
+  <script src="js/charts.js"></script>
+  <script src="js/predict.js?v=7"></script>
+  <script src="js/notices.js"></script>
+</body>
+</html>

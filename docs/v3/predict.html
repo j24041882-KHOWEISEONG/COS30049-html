@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=17">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
   <header class="top">
     <a class="brand" href="index.html">
       <img class="mark" src="images/logo.svg" alt="">
-      <span><strong>Vehicle registration</strong><small>Group 12 · Malaysia</small></span>
+      <span><strong>Vehicle registration</strong><small>Group 12 · v3</small></span>
     </a>
     <nav class="tabs" aria-label="Primary">
       <a href="index.html">Overview</a>
@@ -39,7 +39,7 @@
   <main class="page" id="content">
     <p class="eyebrow">Forecast</p>
     <h1>Where the numbers may go</h1>
-    <p class="lede">Pick one vehicle and fuel, say what you are testing, then enter average income and population. Predict draws every fuel from the shared model, including hybrid petrol, hybrid diesel, and natural gas. Save keeps that scenario and shows how your chosen pair compares with the latest recorded year. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state.</p>
+    <p class="lede">Pick one vehicle and fuel, say what you are testing, then enter average income and population. Predict draws every fuel. Save keeps that scenario and shows how your chosen pair compares with the latest recorded year. The model is the random forest trained on population aged above 15, in thousands, and mean household income in ringgit. It does not use year, population below 14, median income, vehicle price, or state.</p>
     <form id="predict-form" class="card composer" novalidate>
       <p class="eyebrow">What if</p>
       <input id="forecast-name" class="title-input" name="name" maxlength="80" placeholder="Name this scenario" aria-label="Scenario name">
@@ -59,19 +59,11 @@
         <label class="field-tile">Fuel
           <select id="focus-fuel">
             <option value="diesel">diesel</option>
-            <option value="diesel_ng">diesel_ng</option>
             <option value="electric">electric</option>
             <option value="greendiesel">greendiesel</option>
-            <option value="greendiesel_ng">greendiesel_ng</option>
-            <option value="hybrid_diesel">hybrid_diesel</option>
-            <option value="hybrid_petrol">hybrid_petrol</option>
-            <option value="hydrogen">hydrogen</option>
-            <option value="lng">lng</option>
-            <option value="ng">ng</option>
+            <option value="hybrid">hybrid</option>
             <option value="other">other</option>
             <option value="petrol" selected>petrol</option>
-            <option value="petrol_lng">petrol_lng</option>
-            <option value="petrol_ng">petrol_ng</option>
           </select>
         </label>
         <label class="field-tile">Average income, RM
@@ -128,7 +120,7 @@
   </dialog>
   <!-- (4) PREDICTION END -->
   <script src="js/charts.js"></script>
-  <script src="js/predict.js?v=7"></script>
+  <script src="js/predict.js?v=6"></script>
   <script src="js/notices.js"></script>
 </body>
 </html>

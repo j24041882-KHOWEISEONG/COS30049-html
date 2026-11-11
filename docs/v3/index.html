@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Malaysia Vehicle Registration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=17">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <!-- (1) SHARED START: page title and menu bar -->
+  <header class="top">
+    <a class="brand" href="index.html">
+      <img class="mark" src="images/logo.svg" alt="">
+      <span><strong>Vehicle registration</strong><small>Group 12 · v3</small></span>
+    </a>
+    <nav class="tabs" aria-label="Primary">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="historical.html">Historical</a>
+      <a href="predict.html">Forecast</a>
+    </nav>
+  </header>
+  <!-- (1) SHARED END -->
+  <!-- (2) HOMEPAGE START -->
+  <main class="page home" id="content">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Dashboard</p>
+        <h1>See the records, then the forecast</h1>
+        <p class="lede">National registrations from the cleaned file, for every year, vehicle type, and fuel. Population and mean income feed the forecast. The same numbers are on a phone or a computer.</p>
+      </div>
+      <figure class="hero-photo">
+        <img src="images/hero-fleet.jpg" alt="Illustrated Kuala Lumpur street with a gold car, a blue motorcycle, a teal lorry, and a white van">
+      </figure>
+    </section>
+    <div class="hero-extra">
+      <ol class="steps">
+        <li><a href="historical.html">Open the charts</a></li>
+        <li><a href="historical.html">Filter a year or a fuel</a></li>
+        <li><a href="predict.html">Try a forecast</a></li>
+      </ol>
+      <div class="actions">
+        <a class="button" href="historical.html">Open historical charts</a>
+        <a class="button ghost" href="predict.html">Open forecast</a>
+      </div>
+      <p class="source">Sources: <a href="https://data.gov.my/data-catalogue" target="_blank" rel="noopener">data.gov.my</a> — Vehicle Registration Transactions, Population Table: States, and Household Income.</p>
+    </div>
+    <section class="stats" aria-label="Summary">
+      <article class="stat"><span>Registrations in the file</span><strong id="stat-total">—</strong></article>
+      <article class="stat"><span id="stat-year-label">Latest year</span><strong id="stat-year">—</strong></article>
+      <article class="stat"><span>Cars</span><strong id="stat-car">—</strong></article>
+      <article class="stat"><span>Motorcycles</span><strong id="stat-motor">—</strong></article>
+    </section>
+    <section class="gallery" aria-label="Vehicle pictures">
+      <article>
+        <img src="images/vehicle-car.jpg" alt="Gold sedan">
+        <div>
+          <span>Cars</span>
+          <strong id="picture-car">—</strong>
+          <p>Every car row in the cleaned file</p>
+        </div>
+      </article>
+      <article>
+        <img src="images/vehicle-motorcycle.jpg" alt="Blue motorcycle">
+        <div>
+          <span>Motorcycles</span>
+          <strong id="picture-motor">—</strong>
+          <p>Every motorcycle row in the cleaned file</p>
+        </div>
+      </article>
+      <article>
+        <img src="images/vehicle-lorry.jpg" alt="Teal lorry">
+        <div>
+          <span>Lorries</span>
+          <strong id="picture-lorry">—</strong>
+          <p>Every lorry row in the cleaned file</p>
+        </div>
+      </article>
+    </section>
+    <section class="split">
+      <article class="card">
+        <header><h2>Registrations over time</h2></header>
+        <div id="home-trend" class="chart tall"></div>
+      </article>
+      <article class="card">
+        <header><h2>By vehicle type</h2></header>
+        <div id="home-types" class="chart tall"></div>
+      </article>
+    </section>
+    <p class="note" id="home-note">Loading the cleaned file…</p>
+  </main>
+  <!-- (2) HOMEPAGE END -->
+  <script src="js/charts.js"></script>
+  <script src="js/home.js?v=5"></script>
+  <script src="js/notices.js"></script>
+</body>
+</html>

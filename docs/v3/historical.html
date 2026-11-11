@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="images/logo.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=17">
   <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
   <header class="top">
     <a class="brand" href="index.html">
       <img class="mark" src="images/logo.svg" alt="">
-      <span><strong>Vehicle registration</strong><small>Group 12 · Malaysia</small></span>
+      <span><strong>Vehicle registration</strong><small>Group 12 · v3</small></span>
     </a>
     <nav class="tabs" aria-label="Primary">
       <a href="index.html">Overview</a>
@@ -39,10 +39,9 @@
   <main class="page history" id="content">
     <p class="eyebrow">Historical data</p>
     <h1>How registrations changed</h1>
-    <p class="lede">Filter the state-level file by year, state, income, vehicle type, or fuel. The table icon opens the numbers and the expand icon opens a larger chart. Axes start at zero.</p>
+    <p class="lede">Filter the cleaned national file by year, income, vehicle type, or fuel. The table icon opens the numbers and the expand icon opens a larger chart. Axes start at zero.</p>
     <form class="filter-bar" onsubmit="return false">
       <label>Years <select id="year"></select></label>
-      <label>State <select id="state"></select></label>
       <label>Average income <select id="income"></select></label>
       <label>Vehicle types <select id="category"></select></label>
       <label>Fuel <select id="fuel"></select></label>
@@ -90,7 +89,7 @@
         <header>
           <div>
             <h2>By fuel</h2>
-            <p class="caption">The original fuel names, including hybrid petrol, hybrid diesel, and natural gas.</p>
+            <p class="caption">Petrol, diesel, electric, and the other cleaned fuels.</p>
           </div>
           <div class="icon-buttons">
             <button type="button" data-table="fuel" aria-label="Show data table for fuel" title="Data table"><svg aria-hidden="true"><use href="#icon-table"/></svg></button>
@@ -122,7 +121,7 @@
         <div id="income-chart" class="chart"></div>
       </article>
     </section>
-    <footer>Each row is one state and one fuel. Choosing All states adds those rows together for Malaysia.</footer>
+    <footer>The cleaned file has no state column. Historical charts and the forecast both cover Malaysia as a whole.</footer>
   </main>
   <dialog id="enlarge">
     <header>
@@ -150,7 +149,7 @@
   </dialog>
   <!-- (3) HISTORICAL END -->
   <script src="js/charts.js"></script>
-  <script src="js/historical.js?v=5"></script>
+  <script src="js/historical.js?v=4"></script>
   <script src="js/notices.js"></script>
 </body>
 </html>
