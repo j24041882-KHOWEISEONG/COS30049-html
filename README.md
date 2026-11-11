@@ -4,7 +4,7 @@ Group 12 website. Version 5 is the page we share.
 
 ## Navigation
 
-The menu is a warm bar across the top. The mark and title sit on the left. Home, Historical, and Prediction sit on the right, and the open page is marked in gold.
+The menu uses the v3 colours: cream bar, dark text, and a gold pill for the open page. Home, Historical, and Prediction use that same cream, gold, and ink on every page.
 
 1. **Home** shows the overview: total registrations, cars, motorcycles, and the two summary charts.
 2. **Historical Data** shows the historical dashboard. Filters are year, state, average income, vehicle type, and fuel. Each chart has a table and a larger view.
