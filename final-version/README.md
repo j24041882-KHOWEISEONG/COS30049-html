@@ -1,28 +1,21 @@
-# Malaysia Vehicle Registration
+# Our version
 
-This folder is split into two parts.
+This copy uses our edited backend. `backend\main.py` and `backend\model.py` were shortened. The saved model file `simple_model.pkl` is still the original one.
 
-- `frontend` is the React website. `App.js` is in `frontend/src`.
-- `backend` is the Python server. `main.py` and `model.py` are in `backend`.
-
-## Run the website in VS Code
-
-Open the `frontend` folder, then in the terminal:
+The website code is in `frontend`.
 
 ```powershell
+cd frontend
 npm install
 npm start
 ```
 
-`npm install` is only needed the first time. When the terminal says compiled successfully, open http://localhost:3000.
+Open http://localhost:3000
 
-## Run the Python server
-
-Open the `backend` folder, then:
+The Python server reads the historical file from `frontend\public\data`.
 
 ```powershell
+cd backend
 pip install -r requirements.txt
 python main.py
 ```
-
-The server runs at http://localhost:8000. The website still opens if this server is off.

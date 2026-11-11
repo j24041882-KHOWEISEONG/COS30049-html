@@ -44,7 +44,13 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## Two copies
+
+`final-version` is our edited backend. `friend-version` uses the original `main.py` and `model.py` from the zip, with the website only in `frontend`.
+
 ## Live links
 
-- Site: https://j24041882-khoweiseong.github.io/COS30049-html/final-version/frontend/build/
-- Source folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/final-version
+- Our folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/final-version
+- Our site: https://j24041882-khoweiseong.github.io/COS30049-html/final-version/frontend/build/
+- Friend folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/friend-version
+- Friend site: https://j24041882-khoweiseong.github.io/COS30049-html/friend-version/frontend/build/
