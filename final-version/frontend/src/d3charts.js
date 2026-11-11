@@ -140,39 +140,144 @@ export function BarChart({ labels, values, height = 280 }) {
   );
 }
 
-export function LineChart({ series, height = 280 }) {
+function escapeTip(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[char]));
+}
+
+export function LineChart({ series, height = 280, xLabel = 'Year', totalLabel = '' }) {
   const ref = useRef(null);
   const width = useWidth(ref);
   const drawn = series.filter((item) => item.points && item.points.length);
+  const signature = JSON.stringify(drawn.map((item) => ({
+    name: item.name,
+    color: item.color || '',
+    points: item.points
+  })));
 
   useEffect(() => {
     const node = ref.current;
-    if (!node || !drawn.length) return undefined;
+    const plotted = JSON.parse(signature);
+    if (!node || !plotted.length) return undefined;
     const margin = { top: 16, right: 16, bottom: 36, left: 58 };
     const innerW = Math.max(80, width - margin.left - margin.right);
     const innerH = height - margin.top - margin.bottom;
-    const labels = drawn[0].points.map((point) => point.x);
+    const labels = plotted[0].points.map((point) => point.x);
     const svg = d3.select(node).select('svg');
     svg.selectAll('*').remove();
     svg.attr('viewBox', `0 0 ${width} ${height}`);
     const root = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
     const x = d3.scalePoint().domain(labels).range([0, innerW]);
-    const yMax = d3.max(drawn.flatMap((item) => item.points.map((point) => point.y))) || 1;
+    const yMax = d3.max(plotted.flatMap((item) => item.points.map((point) => point.y))) || 1;
     const y = d3.scaleLinear().domain([0, yMax]).nice().range([innerH, 0]);
     const line = d3.line().defined((point) => Number.isFinite(point.y)).x((point) => x(point.x)).y((point) => y(point.y));
     root.append('g').attr('transform', `translate(0,${innerH})`).call(d3.axisBottom(x).tickValues(labels.filter((_, index) => index % Math.ceil(labels.length / 8) === 0)));
     root.append('g').call(d3.axisLeft(y).ticks(5).tickFormat(d3.format('~s')));
-    drawn.forEach((item, index) => {
+    const pointRadius = labels.length > 12 ? 2.4 : 3.4;
+    plotted.forEach((item, index) => {
       const color = seriesColor(item.color, index);
-      root.append('path').datum(item.points).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2.4).attr('d', line);
-      root.selectAll(null).data(item.points.filter((point) => Number.isFinite(point.y))).join('circle')
+      root.append('path').datum(item.points).attr('fill', 'none').attr('stroke', color).attr('stroke-width', 2.4).attr('d', line).attr('pointer-events', 'none');
+      root.append('g').selectAll('circle')
+        .data(item.points.filter((point) => Number.isFinite(point.y)))
+        .join('circle')
+        .attr('class', 'series-point')
         .attr('cx', (point) => x(point.x))
         .attr('cy', (point) => y(point.y))
-        .attr('r', labels.length > 12 ? 2.4 : 3.4)
-        .attr('fill', color);
+        .attr('r', pointRadius)
+        .attr('fill', color)
+        .attr('pointer-events', 'none');
     });
-    return undefined;
-  }, [drawn, width, height]);
+
+    const bandWidth = Math.max(8, Math.min(28, innerW / Math.max(labels.length, 1)));
+    const band = root.append('rect')
+      .attr('class', 'hover-band')
+      .attr('y', 0)
+      .attr('width', bandWidth)
+      .attr('height', innerH)
+      .attr('fill', 'rgba(200, 150, 15, 0.16)')
+      .attr('pointer-events', 'none')
+      .style('opacity', 0);
+    const guide = root.append('line')
+      .attr('y1', 0)
+      .attr('y2', innerH)
+      .attr('stroke', '#c8960f')
+      .attr('stroke-width', 1.4)
+      .attr('pointer-events', 'none')
+      .style('opacity', 0);
+    const tip = d3.select(node).selectAll('.d3-tooltip').data([null]).join('div')
+      .attr('class', 'd3-tooltip')
+      .style('position', 'fixed')
+      .style('visibility', 'hidden')
+      .style('background', 'rgba(42, 48, 60, 0.96)')
+      .style('color', '#fff')
+      .style('padding', '12px 16px')
+      .style('border-radius', '6px')
+      .style('font-size', '12.5px')
+      .style('line-height', '1.55')
+      .style('pointer-events', 'none')
+      .style('box-shadow', '0 6px 18px rgba(0,0,0,0.32)')
+      .style('z-index', 9999)
+      .style('max-width', '280px');
+
+    const nearest = (mouseX) => labels.reduce((best, label) => {
+      const distance = Math.abs(x(label) - mouseX);
+      return distance < best.distance ? { label, distance } : best;
+    }, { label: labels[0], distance: Infinity }).label;
+
+    root.append('rect')
+      .attr('width', innerW)
+      .attr('height', innerH)
+      .attr('fill', 'transparent')
+      .style('cursor', 'crosshair')
+      .on('mousemove', (event) => {
+        const [mouseX] = d3.pointer(event);
+        const label = nearest(mouseX);
+        const at = x(label);
+        band.attr('x', at - bandWidth / 2).style('opacity', 1);
+        guide.attr('x1', at).attr('x2', at).style('opacity', 1);
+        root.selectAll('.series-point')
+          .attr('r', (point) => (point.x === label ? 5.5 : pointRadius))
+          .attr('stroke', (point) => (point.x === label ? '#121a28' : 'none'))
+          .attr('stroke-width', 1.5);
+        const rows = plotted.map((item, index) => {
+          const point = item.points.find((entry) => entry.x === label);
+          const value = point && Number.isFinite(point.y) ? point.y : 0;
+          return { name: item.name, value, color: seriesColor(item.color, index) };
+        });
+        const breakdown = rows.map((row) => (
+          `<div style="display:flex;justify-content:space-between;gap:16px;margin-top:2px;">` +
+            `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${row.color};margin-right:6px;"></span>` +
+            `<span style="text-transform:capitalize">${escapeTip(row.name)}</span></span>` +
+            `<strong>${Number(row.value).toLocaleString('en-MY')}</strong>` +
+          `</div>`
+        )).join('');
+        const total = rows.reduce((sum, row) => sum + row.value, 0);
+        const totalHtml = totalLabel
+          ? `<div style="margin-bottom:4px;"><strong>${escapeTip(totalLabel)}: ${total.toLocaleString('en-MY')}</strong></div>`
+          : '';
+        const tooltipWidth = 260;
+        const left = event.clientX + tooltipWidth + 30 > window.innerWidth
+          ? event.clientX - tooltipWidth - 15
+          : event.clientX + 16;
+        tip.style('visibility', 'visible')
+          .html(
+            `<div style="border-bottom:1px solid rgba(255,255,255,0.25);padding-bottom:6px;margin-bottom:6px;font-size:13.5px;font-weight:bold;">` +
+              `${escapeTip(xLabel)}: ${escapeTip(label)}` +
+            `</div>${totalHtml}${breakdown}`
+          )
+          .style('top', `${Math.max(15, event.clientY - 70)}px`)
+          .style('left', `${left}px`);
+      })
+      .on('mouseleave', () => {
+        band.style('opacity', 0);
+        guide.style('opacity', 0);
+        root.selectAll('.series-point').attr('r', pointRadius).attr('stroke', 'none');
+        tip.style('visibility', 'hidden');
+      });
+
+    return () => { tip.remove(); };
+  }, [signature, width, height, xLabel, totalLabel]);
 
   return (
     <Box ref={ref} sx={{ width: '100%' }}>

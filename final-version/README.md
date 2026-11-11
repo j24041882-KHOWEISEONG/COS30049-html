@@ -1,8 +1,6 @@
-# Our version
+# Final version
 
-This copy uses our edited backend. `backend\main.py` and `backend\model.py` were shortened. The saved model file `simple_model.pkl` is still the original one.
-
-The website code is in `frontend`.
+This copy uses the original backend from the zip. `backend\main.py` and `backend\model.py` are unchanged. The website is in `frontend`.
 
 ```powershell
 cd frontend
@@ -12,7 +10,7 @@ npm start
 
 Open http://localhost:3000
 
-The Python server reads the historical file from `frontend\public\data`.
+Run Python from the `backend` folder so it can find `historical_dataset.csv`.
 
 ```powershell
 cd backend

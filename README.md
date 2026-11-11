@@ -46,7 +46,7 @@ python main.py
 
 ## Two copies
 
-`final-version` is our edited backend. `friend-version` uses the original `main.py` and `model.py` from the zip, with the website only in `frontend`.
+`final-version` is the copy to use. Its backend is the original `main.py` and `model.py`, and the historical page has the checkbox filters. `friend-version` keeps that same original backend with the earlier website.
 
 ## Live links
 
