@@ -17,10 +17,10 @@
       color: #2a3544;
       background: #f3f0e8;
     }
-    main { max-width: 880px; margin: 0 auto; padding: 48px 20px 64px; }
+    main { max-width: 1080px; margin: 0 auto; padding: 48px 20px 64px; }
     h1 { font-family: Fraunces, serif; font-size: 2.4rem; line-height: 1.1; margin: 0 0 10px; }
     p { margin: 0; color: #5d6b7a; }
-    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .choices { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 28px; }
     a.card {
       display: block;
       text-decoration: none;
@@ -34,13 +34,13 @@
     a.card:hover { border-color: #c8960f; }
     a.card strong { display: block; font-family: Fraunces, serif; font-size: 1.6rem; margin-bottom: 8px; }
     a.card span { color: #c8960f; font-size: 0.85rem; font-weight: 600; }
-    @media (max-width: 700px) { .choices { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
+    @media (max-width: 800px) { .choices { grid-template-columns: 1fr; } h1 { font-size: 2rem; } }
   </style>
 </head>
 <body>
   <main>
-    <h1>Two versions of the same site</h1>
-    <p>Open either link. v3 uses the previous cleaned national file. v4 uses the state-level file from the zip.</p>
+    <h1>Three versions of the site</h1>
+    <p>v3 is the previous cleaned file. v4 uses the zip data in our pages. v5 is the website from the zip.</p>
     <div class="choices">
       <a class="card" href="v3/index.html">
         <span>Previous data</span>
@@ -51,6 +51,11 @@
         <span>Zip file</span>
         <strong>Version 4</strong>
         <p>One row per state, 14 fuel names, and the zip model.</p>
+      </a>
+      <a class="card" href="v5/index.html">
+        <span>Zip website</span>
+        <strong>Version 5</strong>
+        <p>Their React site, with a Prediction tab and a Historical tab.</p>
       </a>
     </div>
   </main>
