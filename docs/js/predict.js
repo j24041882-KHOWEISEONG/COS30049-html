@@ -1,3 +1,4 @@
+// (4) PREDICTION START
 const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
 const form = document.getElementById("predict-form");
 const errorBox = document.getElementById("form-error");
@@ -396,3 +397,4 @@ loadSaved();
 showLatestYear().catch(() => {
   note.textContent = "The chart could not load.";
 });
+// (4) PREDICTION END

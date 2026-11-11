@@ -1,3 +1,4 @@
+// (2) HOMEPAGE START
 const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
 
 function sum(rows) {
@@ -106,3 +107,4 @@ async function drawHome() {
 }
 
 drawHome();
+// (2) HOMEPAGE END

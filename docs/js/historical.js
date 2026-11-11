@@ -1,3 +1,4 @@
+// (3) HISTORICAL START
 const DATA_URL = "data/merged_pop_vehicle_income_cleaned.csv";
 const PAGE_SIZE = 12;
 const rows = [];
@@ -304,3 +305,4 @@ async function init() {
 }
 
 init();
+// (3) HISTORICAL END

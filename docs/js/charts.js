@@ -1,3 +1,4 @@
+// (1) SHARED START: chart helpers used by homepage, historical, and prediction
 const PALETTE = ["#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000"];
 const SYMBOLS = [d3.symbolCircle, d3.symbolTriangle, d3.symbolSquare, d3.symbolDiamond, d3.symbolStar, d3.symbolCross, d3.symbolWye, d3.symbolCircle];
 
@@ -240,3 +241,4 @@ function trimTick(label, slot) {
   const limit = Math.max(3, Math.floor(slot / 7));
   return text.length > limit ? `${text.slice(0, limit)}…` : text;
 }
+// (1) SHARED END

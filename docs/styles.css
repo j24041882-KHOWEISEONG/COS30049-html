@@ -1,3 +1,4 @@
+/* (1) SHARED START: styles for the menu, homepage, historical, and prediction */
 :root {
   --bg: #f3f0e8;
   --bg-2: #fffcf6;
@@ -649,3 +650,4 @@ footer { color: var(--muted); font-size: 0.82rem; margin-top: 18px; }
   .chart.xl { height: 360px; }
   dialog { width: calc(100% - 16px); margin: auto; }
 }
+/* (1) SHARED END */
