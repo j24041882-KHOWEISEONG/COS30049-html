@@ -20,7 +20,7 @@
     main { max-width: 1080px; margin: 0 auto; padding: 48px 20px 64px; }
     h1 { font-family: Fraunces, serif; font-size: 2.4rem; line-height: 1.1; margin: 0 0 10px; }
     p { margin: 0; color: #5d6b7a; }
-    .choices { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .choices { display: grid; grid-template-columns: minmax(0, 420px); gap: 16px; margin-top: 28px; }
     a.card {
       display: block;
       text-decoration: none;
@@ -39,21 +39,11 @@
 </head>
 <body>
   <main>
-    <h1>Three versions of the site</h1>
-    <p>v3 is the previous cleaned file. v4 uses the zip data in our pages. v5 is the website from the zip.</p>
+    <h1>Malaysia Vehicle Registration</h1>
+    <p>Home, Historical, and Prediction for the finished site.</p>
     <div class="choices">
-      <a class="card" href="v3/index.html">
-        <span>Previous data</span>
-        <strong>Version 3</strong>
-        <p>National totals, 6 fuel groups, no state column.</p>
-      </a>
-      <a class="card" href="v4/index.html">
-        <span>Zip file</span>
-        <strong>Version 4</strong>
-        <p>One row per state, 14 fuel names, and the zip model.</p>
-      </a>
       <a class="card" href="v5/index.html">
-        <span>Zip website</span>
+        <span>Open the site</span>
         <strong>Version 5</strong>
         <p>The D3 platform, with Home, Historical Data, and Prediction.</p>
       </a>

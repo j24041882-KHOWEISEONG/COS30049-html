@@ -26,7 +26,5 @@ Predict uses the Python server on port 8000 when it is running. On the public pa
 
 ## Live links
 
-- Home chooser: https://j24041882-khoweiseong.github.io/COS30049-html/
-- v3, previous cleaned file: https://j24041882-khoweiseong.github.io/COS30049-html/v3/
-- v4, our pages with the zip data: https://j24041882-khoweiseong.github.io/COS30049-html/v4/
-- v5, this platform: https://j24041882-khoweiseong.github.io/COS30049-html/v5/
+- Site: https://j24041882-khoweiseong.github.io/COS30049-html/v5/
+- Source folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/final-version
