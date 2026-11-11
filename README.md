@@ -24,6 +24,17 @@ The charts use D3. The cleaned national file from v3 is the earlier overview. v5
 
 Predict uses the Python server on port 8000 when it is running. On the public page it uses the saved model in the browser and keeps prediction history in that browser.
 
+## Run it in VS Code
+
+Download the repository, then open the `final-version` folder itself, not the folder above it. In that folder's terminal:
+
+```powershell
+npm install
+npm start
+```
+
+`npm install` is required once. `npm start` opens the React app at http://localhost:3000. Node.js must be installed first.
+
 ## Live links
 
 - Site: https://j24041882-khoweiseong.github.io/COS30049-html/final-version/
