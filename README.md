@@ -1,49 +1,42 @@
-# Malaysia Vehicle Registration Platform
+# Malaysia Vehicle Count Prediction 
 
-Group 12 website. Version 5 is the page we share.
+The is the website for assignment 3 of COS30049 Computing Technology Innovation Project. The application allows users to enter the population of people above 15 and national mean income, to predict the number and types of vehicles in Malaysia. We are group 12. 
 
-## Navigation
+## Setup in VS Code (Windows)
 
-The menu uses the v3 colours: cream bar, dark text, and a gold pill for the open page. Home, Historical, and Prediction use that same cream, gold, and ink on every page.
+Open the repository. The React app is in `frontend` folder and the API server and AI model is in `backend` folder.
 
-1. **Home** shows the overview: total registrations, cars, motorcycles, and the two summary charts.
-2. **Historical Data** shows the historical dashboard. Filters are year, state, average income, vehicle type, and fuel. Each chart has a table and a larger view.
-3. **Prediction** asks for population aged above 15 and mean income, then draws the D3 forecast charts.
-
-## Historical data
-
-The historical page requests the file in this order:
-
-1. `GET http://localhost:8000/historical-data` when the Python server is running.
-2. `GET /historical` on our own server.
-3. `data/historical_dataset.csv` on the public page.
-
-The charts use D3. The cleaned national file from v3 is the earlier overview. v5 reads the state-level file, so the same registrations can be filtered by state.
-
-## Prediction
-
-Predict uses the Python server on port 8000 when it is running. On the public page it uses the saved model in the browser and keeps prediction history in that browser.
-
-## Run it in VS Code
-
-Open the repository. The React app is in `frontend` and the Python server is in `backend`.
-
-In `frontend`:
+In the terminal, please navigate to the `frontend` folder and run the following command:
 
 ```powershell
 npm install
-npm start
+```
+Note that Node.js must be installed in the system first before running this command. 
+
+Then, please navigate to `backend` folder to run the following command:
+
+```powershell
+pip install -r requirements.txt
 ```
 
-`npm install` is required once. `npm start` opens the React app at http://localhost:3000. Node.js must be installed first.
+Running these two commands will ensure the required libraries are installed in your system so the application is able to run smoothly.
 
-In `backend`:
+## Running the application in VS Code (Windows)
+
+In the terminal, please navigate to `backend` folder to run the following command:
 
 ```powershell
 python main.py
 ```
 
-## Live site
+Then, please navigate to the `frontend` folder and run the following command:
 
-- https://j24041882-khoweiseong.github.io/COS30049-html/
-- Frontend: https://j24041882-khoweiseong.github.io/COS30049-html/frontend/build/
+```powershell
+npm start
+```
+The React application should successfully open at http://localhost:3000. 
+
+## Using the application
+
+The opened page at http://localhost:3000 should display the homepage, which shows some charts displaying some statistics on existing vehicle registration records in Malaysia. Navigate to the prediction page and enter input values for population of people above 15 and national mean income, and click the predict button for the application to generate and display predictions. Use the filters to control what the charts displays. The charts are interactive and users can hover over to show tooltips. Users can also click on the enlarge or table button at the top right hand corner of every chart to view a bigger chart, or view the information in text format.
+
