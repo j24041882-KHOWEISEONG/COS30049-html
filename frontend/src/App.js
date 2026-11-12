@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import axios from 'axios';
 import * as d3 from 'd3';
+import HomeDashboard from './HomeDashboard';
 import {
   Container,
   Typography,
@@ -1283,36 +1284,7 @@ export default function App() {
         </Box>
 
         {currentTab === 'home' && (
-          <Paper elevation={3} sx={{ p: { xs: 2.5, md: 4 } }}>
-            <Typography variant="h5" gutterBottom fontWeight="bold">
-              Welcome to the Malaysian Vehicle Registration Analysis & Prediction Platform
-            </Typography>
-            <Typography variant="body1" paragraph>
-              This platform helps automotive dealers, importers, manufacturers, and transport policymakers explore 25 years of official Malaysian vehicle registration records (2000–2025) and generate machine-learning volume forecasts.
-            </Typography>
-            <Divider sx={{ my: 2 }} />
-            <Typography variant="h6" gutterBottom>
-              How to Navigate This Platform:
-            </Typography>
-            <Typography variant="body1" component="div" sx={{ mb: 2 }}>
-              <ul>
-                <li>
-                  <strong>Historical Data Dashboard:</strong> Filter official JPJ registration records using multi-select checkbox dropdowns for Year, Vehicle Category, and Fuel Type. Interact with D3.js visualizations, enlarge charts for detailed inspection, or view the underlying data table in a modal pop-up.
-                </li>
-                <li>
-                  <strong>Prediction Page:</strong> Enter projected Population (Aged 15+, in thousands) and Mean Household Income (RM) to run our optimized <strong>Random Forest Regressor</strong> (R² = 0.9965) and forecast registration volumes across all vehicle categories and fuel types.
-                </li>
-              </ul>
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Data Sources:</strong> Official Open Data Portal of Malaysia (data.gov.my) — Vehicle Registration Transactions, State Population Tables, and Household Income Surveys (CC-BY 4.0).
-            </Typography>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 3 }}>
-              <Button variant="contained" onClick={() => setCurrentTab('prediction')}>
-                Go to ML Prediction Tool
-              </Button>
-            </Stack>
-          </Paper>
+          <HomeDashboard onOpenPrediction={() => setCurrentTab('prediction')} />
         )}
 
         {currentTab === 'prediction' && (
