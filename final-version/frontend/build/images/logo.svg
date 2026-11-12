@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vehicle registration">
-  <rect width="64" height="64" rx="18" fill="#C8960F"/>
-  <circle cx="32" cy="33" r="21" fill="#F6F1E6"/>
-  <path fill="#121A28" d="M16.5 37.6c.3-1.6 1.6-2.8 3.2-3l2.4-5.2A4.4 4.4 0 0 1 26.2 26.6h12.2a4.4 4.4 0 0 1 4.1 2.8l2.4 5.2c1.6.2 2.9 1.4 3.2 3l.5 2.6c0 1.2-.9 2.1-2.1 2.1h-1.7a4 4 0 0 1-7.8 0H26.1a4 4 0 0 1-7.8 0h-1.7c-1.2 0-2.1-.9-2.1-2.1l.5-2.6z"/>
-  <path fill="#F6F1E6" d="M26.6 28.2h11.2l2.1 5.1H24.3l2.3-5.1z"/>
-  <circle cx="24.2" cy="42.2" r="2.5" fill="#C8960F"/>
-  <circle cx="40.4" cy="42.2" r="2.5" fill="#C8960F"/>
-  <path d="M14 48.5h36" stroke="#C8960F" stroke-width="2" stroke-linecap="round" opacity=".85"/>
-</svg>

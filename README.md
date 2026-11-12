@@ -26,9 +26,9 @@ Predict uses the Python server on port 8000 when it is running. On the public pa
 
 ## Run it in VS Code
 
-Download the repository, then open `final-version`. The React app is in `frontend` and the Python server is in `backend`.
+Open the repository. The React app is in `frontend` and the Python server is in `backend`.
 
-In `final-version/frontend`:
+In `frontend`:
 
 ```powershell
 npm install
@@ -37,10 +37,9 @@ npm start
 
 `npm install` is required once. `npm start` opens the React app at http://localhost:3000. Node.js must be installed first.
 
-In `final-version/backend`:
+In `backend`:
 
 ```powershell
-pip install -r requirements.txt
 python main.py
 ```
 
