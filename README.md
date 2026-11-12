@@ -44,12 +44,7 @@ pip install -r requirements.txt
 python main.py
 ```
 
-## Two copies
+## Live site
 
-`final-version` is the copy to use. Its backend is the original `main.py` and `model.py`, and the historical page has the checkbox filters. `friend-version` keeps that same original backend with the earlier website.
-
-## Live links
-
-- Both sites: https://j24041882-khoweiseong.github.io/COS30049-html/
-- Frontend, home and prediction: https://j24041882-khoweiseong.github.io/COS30049-html/frontend/build/
-- Sample, with the historical page: https://j24041882-khoweiseong.github.io/COS30049-html/sample/build/
+- https://j24041882-khoweiseong.github.io/COS30049-html/
+- Frontend: https://j24041882-khoweiseong.github.io/COS30049-html/frontend/build/
