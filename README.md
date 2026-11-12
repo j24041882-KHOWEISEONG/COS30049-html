@@ -51,7 +51,5 @@ python main.py
 ## Live links
 
 - Both sites: https://j24041882-khoweiseong.github.io/COS30049-html/
-- Our folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/final-version
-- Our site: https://j24041882-khoweiseong.github.io/COS30049-html/final-version/frontend/build/
-- Friend folder: https://github.com/j24041882-KHOWEISEONG/COS30049-html/tree/main/friend-version
-- Friend site: https://j24041882-khoweiseong.github.io/COS30049-html/friend-version/frontend/build/
+- Frontend, home and prediction: https://j24041882-khoweiseong.github.io/COS30049-html/frontend/build/
+- Sample, with the historical page: https://j24041882-khoweiseong.github.io/COS30049-html/sample/build/
