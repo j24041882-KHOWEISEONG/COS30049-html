@@ -1,4 +1,4 @@
-# Malaysia Vehicle Count Prediction 
+# Malaysia Vehicle Trends & Forecasting
 
 The is the website for assignment 3 of COS30049 Computing Technology Innovation Project. The application allows users to enter the population of people above 15 and national mean income, to predict the number and types of vehicles in Malaysia. We are group 12. 
 
